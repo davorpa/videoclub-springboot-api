@@ -13,21 +13,21 @@ import es.seresco.cursojee.videoclub.view.dto.actor.ResponseActorDTO;
 public interface ActorService
 {
 
-	public static final String BEAN_NAME = "actorService";
+	static final String BEAN_NAME = "actorService";
 
 
-	public List<ResponseActorDTO> findAll();
+	List<ResponseActorDTO> findAll();
 
-	public ResponseActorDTO findById(
+	ResponseActorDTO findById(
 			final @NonNull Long id) throws ElementoNoExistenteException;
 
-	public ResponseActorDTO create(
+	ResponseActorDTO create(
 			final @NonNull RequestCrearActorDTO requestCrearActorDTO);
 
-	public ResponseActorDTO update(
+	ResponseActorDTO update(
 			final @NonNull RequestActualizarActorDTO requestActualizarActorDTO) throws ElementoNoExistenteException;
 
-	public void delete(
+	void delete(
 			final @NonNull RequestBorrarActorDTO requestBorrarActorDTO) throws ElementoNoExistenteException;
 
 }
