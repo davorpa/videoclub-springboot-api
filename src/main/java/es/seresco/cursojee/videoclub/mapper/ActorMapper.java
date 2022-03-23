@@ -26,7 +26,7 @@ public interface ActorMapper
 	@Mapping(source = "segundoApellido", target = "segundoApellido")
 	@Mapping(source = "fechaNacimiento", target = "fechaNacimiento")
 	Actor mapActorDTOToActor(
-			final ActorDTO actor);
+			final ActorDTO actorDTO);
 
 	@InheritConfiguration(name = "mapActorDTOToActor")
 	void mapRequestUpdateDTOToTargetActor(
@@ -53,7 +53,6 @@ public interface ActorMapper
 	@Mapping(source = "fechaNacimiento", target = "fechaNacimiento")
 	ResponseActorDTO mapActorToResponseActorDTO(
 			final Actor actor);
-
 
 	List<ResponseActorDTO> mapActorToResponseActorDTOList(
 			final List<Actor> actores);
