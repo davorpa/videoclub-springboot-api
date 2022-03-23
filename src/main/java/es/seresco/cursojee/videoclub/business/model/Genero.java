@@ -2,6 +2,7 @@ package es.seresco.cursojee.videoclub.business.model;
 
 import java.io.Serializable;
 
+import es.seresco.cursojee.videoclub.view.dto.CodigoGeneroEnum;
 import es.seresco.cursojee.videoclub.view.dto.Identificable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

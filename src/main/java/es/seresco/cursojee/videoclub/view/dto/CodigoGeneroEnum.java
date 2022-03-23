@@ -1,4 +1,4 @@
-package es.seresco.cursojee.videoclub.business.model;
+package es.seresco.cursojee.videoclub.view.dto;
 
 public enum CodigoGeneroEnum
 {
