@@ -19,7 +19,7 @@ public interface ActorService
 	public List<ResponseActorDTO> findAll();
 
 	public ResponseActorDTO findById(
-			final Long id) throws ElementoNoExistenteException;
+			final @NonNull Long id) throws ElementoNoExistenteException;
 
 	public ResponseActorDTO create(
 			final @NonNull RequestCrearActorDTO requestCrearActorDTO);
