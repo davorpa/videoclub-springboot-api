@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,7 +43,7 @@ public class ActorController {
 
 	@GetMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseActorDTO> getActor(
-			@PathVariable @NotNull Long idActor)
+			@PathVariable @NotNull @Positive Long idActor)
 					throws ElementoNoExistenteException
 	{
 		ResponseActorDTO actorDTO = actorService.findById(idActor);
@@ -59,7 +60,7 @@ public class ActorController {
 
 	@PutMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updateActor(
-			@PathVariable @NotNull Long idActor,
+			@PathVariable @NotNull @Positive Long idActor,
 			@Validated @RequestBody @NotNull RequestActualizarActorDTO requestActualizarActorDTO)
 					throws PeticionInconsistenteException, ElementoNoExistenteException
 	{
@@ -73,7 +74,7 @@ public class ActorController {
 
 	@DeleteMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> delete(
-			@PathVariable @NotNull Long idActor,
+			@PathVariable @NotNull @Positive Long idActor,
 			@Validated @RequestBody @NotNull RequestBorrarActorDTO requestBorrarActorDTO)
 					throws PeticionInconsistenteException, ElementoNoExistenteException
 	{
