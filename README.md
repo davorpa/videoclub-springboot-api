@@ -1,6 +1,10 @@
 # videoclub-springboot-api
 
+<div align="center" markdown="1">
 
+![Videoclupy!](screenshot.png)
+
+</div>
 
 ## Requisitos
 
