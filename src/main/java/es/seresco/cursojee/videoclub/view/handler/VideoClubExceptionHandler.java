@@ -114,7 +114,7 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 		ElementoNoExistenteException.class
 	})
 	public ResponseEntity<String> handleNotFoundExceptions(
-			final ElementoNoExistenteException exception, final Locale locale)
+			final Exception exception, final Locale locale)
 	{
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getLocalizedMessage());
 	}
