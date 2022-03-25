@@ -38,13 +38,13 @@ public class PeliculaDTO implements Serializable
 	@NotNull
 	private Integer anio;
 
+	@JsonProperty("genero")
+	@NotNull
+	private CodigoGeneroEnum codigoGenero;
+
 	@JsonProperty("actores")
 	@Size(min = 1)
 	@NotNull
 	private List<Long> actores;
-
-	@JsonProperty("codigoGenero")
-	@NotNull
-	private CodigoGeneroEnum codigoGenero;
 
 }
