@@ -10,7 +10,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-import es.seresco.cursojee.videoclub.business.model.Actor;
 import es.seresco.cursojee.videoclub.business.model.Pelicula;
 import es.seresco.cursojee.videoclub.view.dto.Identificable;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.PeliculaDTO;
@@ -18,7 +17,7 @@ import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPelicula
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { ActorMapper.class })
 public interface PeliculaMapper
 {
 
@@ -68,8 +67,8 @@ public interface PeliculaMapper
 	// UTILITIES AND CUSTOM MAPPERS
 	//
 
-	@Named("extractActorIds")
-	static List<Long> extractActorIds(final List<Actor> source) {
+	@Named("extractPeliculaIds")
+	static List<Long> extractPeliculaIds(final List<Pelicula> source) {
 		if (source == null) {
 			return null;
 		}

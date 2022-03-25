@@ -1,13 +1,17 @@
 package es.seresco.cursojee.videoclub.mapper;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 
 import es.seresco.cursojee.videoclub.business.model.Actor;
+import es.seresco.cursojee.videoclub.view.dto.Identificable;
 import es.seresco.cursojee.videoclub.view.dto.actor.ActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestActualizarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
@@ -56,5 +60,19 @@ public interface ActorMapper
 
 	List<ResponseActorDTO> mapActorToResponseActorDTOList(
 			final List<Actor> actores);
+
+	//
+	// UTILITIES AND CUSTOM MAPPERS
+	//
+
+	@Named("extractActorIds")
+	static List<Long> extractActorIds(final List<Actor> source) {
+		if (source == null) {
+			return null;
+		}
+		return source.stream()
+				.map(Identificable::getId)
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
 
 }
