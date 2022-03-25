@@ -46,10 +46,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 	@Override
 	public List<ResponsePeliculaDTO> findAll()
 	{
-		final List<ResponsePeliculaDTO> respuesta =
-				peliculaMapper.mapPeliculaToResponsePeliculaDTOList(backedReference());
-		// TODO: Map actores ids on each item
-		return respuesta;
+		return peliculaMapper.mapPeliculaToResponsePeliculaDTOList(backedReference());
 	}
 
 	@Override
@@ -58,9 +55,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 					throws ElementoNoExistenteException
 	{
 		Pelicula pelicula = findInternal(id);
-		ResponsePeliculaDTO respuesta = peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
-		respuesta.setActores(pelicula.getActoresIds());
-		return respuesta;
+		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
 
 	@Override
@@ -77,9 +72,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 
 		initBackedReference().add(pelicula);
 
-		ResponsePeliculaDTO respuesta = peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
-		respuesta.setActores(pelicula.getActoresIds());
-		return respuesta;
+		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
 
 	@Override
@@ -102,9 +95,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 			pelicula.addActores(actores);
 		}
 
-		ResponsePeliculaDTO respuesta = peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
-		respuesta.setActores(pelicula.getActoresIds());
-		return respuesta;
+		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
 
 	@Override
