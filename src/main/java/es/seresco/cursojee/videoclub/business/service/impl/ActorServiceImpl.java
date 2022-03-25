@@ -92,7 +92,7 @@ public class ActorServiceImpl implements ActorService {
 		Objects.requireNonNull(id = requestBorrarActorDTO.getId(), "`actorDTO.id` must be non-null");
 		final List<Actor> actores = backedReference();
 		if (actores == null || !actores.remove(findInternal(id))) {
-			throw new ElementoNoExistenteException();
+			throw new ElementoNoExistenteException(Actor.class, id);
 		}
 	}
 
@@ -105,9 +105,9 @@ public class ActorServiceImpl implements ActorService {
 			return actores.stream()
 					.filter(Identificable.finder(id))
 					.findFirst()
-					.orElseThrow(ElementoNoExistenteException::new);
+					.orElseThrow(ElementoNoExistenteException.creater(Actor.class, id));
 		}
-		throw new ElementoNoExistenteException();
+		throw new ElementoNoExistenteException(Actor.class, id);
 	}
 
 

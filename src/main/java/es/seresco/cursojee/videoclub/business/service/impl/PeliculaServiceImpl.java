@@ -67,7 +67,8 @@ public class PeliculaServiceImpl implements PeliculaService {
 
 		for (final Long idActor : requestCrearPeliculaDTO.getActores()) {
 			pelicula.addActor(actorService.findModelById(idActor)
-					.orElseThrow(ElementoNoExistenteException::new));
+					.orElseThrow(ElementoNoExistenteException.creater(
+							Pelicula.class, idActor)));
 		}
 
 		initBackedReference().add(pelicula);
@@ -88,7 +89,8 @@ public class PeliculaServiceImpl implements PeliculaService {
 		Collection<Actor> actores = new LinkedHashSet<>();
 		for (final Long idActor : requestActualizarPeliculaDTO.getActores()) {
 			actores.add(actorService.findModelById(idActor)
-					.orElseThrow(ElementoNoExistenteException::new));
+					.orElseThrow(ElementoNoExistenteException.creater(
+							Pelicula.class, id)));
 		}
 		synchronized (pelicula) {
 			pelicula.removeActores();
@@ -109,7 +111,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 		final Pelicula pelicula;
 		final List<Pelicula> peliculas = backedReference();
 		if (peliculas == null || !peliculas.remove(pelicula = findInternal(id))) {
-			throw new ElementoNoExistenteException();
+			throw new ElementoNoExistenteException(Pelicula.class, id);
 		}
 		// perform cascade clean-up to avoid memory leaks
 		pelicula.removeActores();
@@ -124,9 +126,10 @@ public class PeliculaServiceImpl implements PeliculaService {
 			return peliculas.stream()
 					.filter(Identificable.finder(id))
 					.findFirst()
-					.orElseThrow(ElementoNoExistenteException::new);
+					.orElseThrow(ElementoNoExistenteException.creater(
+							Pelicula.class, id));
 		}
-		throw new ElementoNoExistenteException();
+		throw new ElementoNoExistenteException(Pelicula.class, id);
 	}
 
 

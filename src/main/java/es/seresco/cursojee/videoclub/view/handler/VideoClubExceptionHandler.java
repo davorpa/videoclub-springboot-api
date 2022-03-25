@@ -1,7 +1,6 @@
 package es.seresco.cursojee.videoclub.view.handler;
 
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -11,6 +10,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -48,6 +48,10 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 		}
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
+
+
+
+
 
 	protected String resolveRequestURL(
 			final WebRequest webRequest,
@@ -109,24 +113,48 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 
+
+
+
 	@ExceptionHandler({
 		NoSuchElementException.class,
 		ElementoNoExistenteException.class
 	})
-	public ResponseEntity<String> handleNotFoundExceptions(
-			final Exception exception, final Locale locale)
+	@Nullable
+	public ResponseEntity<Object> handleNotFoundExceptions(
+			final Exception ex, WebRequest request)
 	{
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getLocalizedMessage());
+		HttpHeaders headers = new HttpHeaders();
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		Object body;
+		if (ex instanceof ElementoNoExistenteException) {
+			body = buildErrorInfoForElementoNoExistente((ElementoNoExistenteException) ex, request);
+		} else {
+			body = buildErrorInfo(ex, request);
+		}
+
+		return handleExceptionInternal(ex, body, headers, status, request);
 	}
 
 	@ExceptionHandler({
 		PeticionInconsistenteException.class
 	})
+	@Nullable
 	public ResponseEntity<String> handlePeticionInconsistenteException(
-			final PeticionInconsistenteException exception, final Locale locale)
+			final PeticionInconsistenteException ex, WebRequest request)
 	{
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getLocalizedMessage());
 	}
 
+	protected Object buildErrorInfoForElementoNoExistente(
+			final ElementoNoExistenteException ex, final WebRequest request)
+	{
+		final String requestUrl = resolveRequestURL(request, null);
+		// TODO: make a DTO mapping the most important exception details or specialize ErrorInfo DTO
+		final Map<String, Object> details = new LinkedHashMap<>(2);
+		details.put("type", ex.getType());
+		details.put("value", ex.getId());
+		return new ErrorInfo<>(requestUrl, ex, details);
+	}
 
 }
