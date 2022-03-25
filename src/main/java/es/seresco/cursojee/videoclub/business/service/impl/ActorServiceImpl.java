@@ -3,6 +3,7 @@ package es.seresco.cursojee.videoclub.business.service.impl;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -49,6 +50,15 @@ public class ActorServiceImpl implements ActorService {
 	{
 		Actor actor = findInternal(id);
 		return actorMapper.mapActorToResponseActorDTO(actor);
+	}
+
+	@Override
+	public Optional<Actor> findModelById(Long id) {
+		try {
+			return Optional.ofNullable(findInternal(id));
+		} catch (ElementoNoExistenteException e) {
+			return Optional.empty();
+		}
 	}
 
 	@Override

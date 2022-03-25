@@ -22,7 +22,7 @@ public interface PeliculaService
 			final @NonNull Long id) throws ElementoNoExistenteException;
 
 	ResponsePeliculaDTO create(
-			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO);
+			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO) throws ElementoNoExistenteException;
 
 	ResponsePeliculaDTO update(
 			final @NonNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO) throws ElementoNoExistenteException;

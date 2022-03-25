@@ -53,6 +53,7 @@ public class PeliculaController {
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponsePeliculaDTO> createPelicula(
 			@Validated @RequestBody @NotNull RequestCrearPeliculaDTO requestCrearPeliculaDTO)
+					throws ElementoNoExistenteException
 	{
 		ResponsePeliculaDTO peliculaDTO = peliculaService.create(requestCrearPeliculaDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(peliculaDTO);

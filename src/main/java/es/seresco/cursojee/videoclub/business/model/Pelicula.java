@@ -1,6 +1,7 @@
 package es.seresco.cursojee.videoclub.business.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -46,12 +47,26 @@ public class Pelicula implements Serializable, Identificable<Long>
 		return actores;
 	}
 
-	public boolean addActor(final Actor actor) {
+	public List<Long> getActoresIds() {
+		return _getActores().stream()
+				.map(Identificable::getId)
+				.collect(Collectors.toCollection(LinkedList::new));
+	}
+
+	public boolean addActor(final @NonNull Actor actor) {
 		return _getActores().add(actor);
 	}
 
-	public boolean removeActor(final Actor actor) {
+	public boolean removeActor(final @NonNull Actor actor) {
 		return _getActores().remove(actor);
+	}
+
+	public void addActores(final @NonNull Collection<Actor> actores) {
+		actores.forEach(this::addActor);
+	}
+
+	public void removeActores() {
+		_getActores().forEach(this::removeActor);
 	}
 
 	public List<Actor> findActores(final @NonNull Predicate<Actor> filter) {
