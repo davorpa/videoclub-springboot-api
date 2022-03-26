@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import es.seresco.cursojee.videoclub.validation.IsAfter;
+import es.seresco.cursojee.videoclub.validation.NotNullIfAnotherFieldHasValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SuperBuilder
+@NotNullIfAnotherFieldHasValue(
+	fieldName       = "segundoApellido",
+	dependFieldName = "primerApellido"
+)
 public class ActorDTO implements Serializable
 {
 
@@ -36,6 +42,7 @@ public class ActorDTO implements Serializable
 	@JsonProperty("fechaNacimiento")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@NotNull
+	@IsAfter(date = "1900-01-01")
 	private Date fechaNacimiento;
 
 }
