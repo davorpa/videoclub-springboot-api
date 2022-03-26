@@ -46,7 +46,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 	@Override
 	public List<ResponsePeliculaDTO> findAll()
 	{
-		return peliculaMapper.mapPeliculaToResponsePeliculaDTOList(backedReference());
+		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(backedReference());
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 		Objects.requireNonNull(id = requestActualizarPeliculaDTO.getId(), "`peliculaDTO.id` must be non-null");
 		Pelicula pelicula = findInternal(id);
 
-		peliculaMapper.mapRequestUpdateDTOToTargetPelicula(requestActualizarPeliculaDTO, pelicula);
+		peliculaMapper.updatePeliculaFromDTO(requestActualizarPeliculaDTO, pelicula);
 		Collection<Actor> actores = new LinkedHashSet<>();
 		for (final Long idActor : requestActualizarPeliculaDTO.getActores()) {
 			actores.add(actorService.findModelById(idActor)

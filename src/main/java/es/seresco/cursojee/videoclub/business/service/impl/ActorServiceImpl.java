@@ -40,7 +40,7 @@ public class ActorServiceImpl implements ActorService {
 	@Override
 	public List<ResponseActorDTO> findAll()
 	{
-		return actorMapper.mapActorToResponseActorDTOList(backedReference());
+		return actorMapper.mapActorToResponseActorDTO(backedReference());
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class ActorServiceImpl implements ActorService {
 		Long id;
 		Objects.requireNonNull(id = requestActualizarActorDTO.getId(), "`actorDTO.id` must be non-null");
 		Actor actor = findInternal(id);
-		actorMapper.mapRequestUpdateDTOToTargetActor(requestActualizarActorDTO, actor);
+		actorMapper.updateActorFromDTO(requestActualizarActorDTO, actor);
 		return actorMapper.mapActorToResponseActorDTO(actor);
 	}
 

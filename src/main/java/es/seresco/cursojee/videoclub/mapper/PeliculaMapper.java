@@ -21,29 +21,34 @@ import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
 public interface PeliculaMapper
 {
 
+	static final String PELICULA_DTO_TO_PELICULA = "peliculaDTOToPelicula";
+	static final String EXTRACT_PELICULA_IDS = "extractPeliculaIds";
+
 	//
 	// FROM DTO TO ENTITY
 	//
 
+
+	@Named(PELICULA_DTO_TO_PELICULA)
 	@Mapping(source = "anio", target = "anio")
 	@Mapping(source = "codigoGenero", target = "genero.codigo")
 	@Mapping(source = "duracion", target = "duracion")
 	@Mapping(source = "titulo", target = "titulo")
 	@Mapping(target = "actores", ignore = true)
-	public Pelicula mapPeliculaDTOToPelicula(
+	public Pelicula peliculaDTOToPelicula(
 			final PeliculaDTO peliculaDTO);
 
-	@InheritConfiguration(name = "mapPeliculaDTOToPelicula")
-	public void mapRequestUpdateDTOToTargetPelicula(
+	@InheritConfiguration(name = PELICULA_DTO_TO_PELICULA)
+	public void updatePeliculaFromDTO(
 			final RequestActualizarPeliculaDTO requestActualizarPeliculaDTO,
 			final @MappingTarget Pelicula pelicula);
 
-	@InheritConfiguration(name = "mapPeliculaDTOToPelicula")
+	@InheritConfiguration(name = PELICULA_DTO_TO_PELICULA)
 	public Pelicula mapRequestCreateDTOToPelicula(
 			final RequestCrearPeliculaDTO requestCrearPeliculaDTO);
 
+	@InheritConfiguration(name = PELICULA_DTO_TO_PELICULA)
 	@Mapping(source = "id", target = "id")
-	@InheritConfiguration(name = "mapPeliculaDTOToPelicula")
 	public Pelicula mapRequestUpdateDTOToPelicula(
 			final RequestActualizarPeliculaDTO requestActualizarPeliculaDTO);
 
@@ -56,18 +61,18 @@ public interface PeliculaMapper
 	@Mapping(source = "genero.codigo", target = "codigoGenero")
 	@Mapping(source = "duracion", target = "duracion")
 	@Mapping(source = "titulo", target = "titulo")
-	@Mapping(source = "actores", target = "actores", qualifiedByName = "extractActorIds")
+	@Mapping(source = "actores", target = "actores", qualifiedByName = ActorMapper.EXTRACT_ACTOR_IDS)
 	public ResponsePeliculaDTO mapPeliculaToResponsePeliculaDTO(
 			final Pelicula pelicula);
 
-	public List<ResponsePeliculaDTO> mapPeliculaToResponsePeliculaDTOList(
+	public List<ResponsePeliculaDTO> mapPeliculaToResponsePeliculaDTO(
 			final List<Pelicula> peliculas);
 
 	//
 	// UTILITIES AND CUSTOM MAPPERS
 	//
 
-	@Named("extractPeliculaIds")
+	@Named(EXTRACT_PELICULA_IDS)
 	static List<Long> extractPeliculaIds(final List<Pelicula> source) {
 		if (source == null) {
 			return null;

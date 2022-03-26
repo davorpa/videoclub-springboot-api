@@ -21,28 +21,32 @@ import es.seresco.cursojee.videoclub.view.dto.actor.ResponseActorDTO;
 public interface ActorMapper
 {
 
+	static final String ACTOR_DTO_TO_ACTOR = "actorDTOToActor";
+	static final String EXTRACT_ACTOR_IDS  = "extractActorIds";
+
 	//
 	// FROM DTO TO ENTITY
 	//
 
+	@Named(ACTOR_DTO_TO_ACTOR)
 	@Mapping(source = "nombre", target = "nombre")
 	@Mapping(source = "primerApellido", target = "primerApellido")
 	@Mapping(source = "segundoApellido", target = "segundoApellido")
 	@Mapping(source = "fechaNacimiento", target = "fechaNacimiento")
-	Actor mapActorDTOToActor(
+	Actor actorDTOToActor(
 			final ActorDTO actorDTO);
 
-	@InheritConfiguration(name = "mapActorDTOToActor")
-	void mapRequestUpdateDTOToTargetActor(
+	@InheritConfiguration(name = ACTOR_DTO_TO_ACTOR)
+	void updateActorFromDTO(
 			final RequestActualizarActorDTO requestActualizarActorDTO,
 			final @MappingTarget Actor actor);
 
-	@InheritConfiguration(name = "mapActorDTOToActor")
+	@InheritConfiguration(name = ACTOR_DTO_TO_ACTOR)
 	Actor mapRequestCreateDTOToActor(
 			final RequestCrearActorDTO requestCrearActorDTO);
 
+	@InheritConfiguration(name = ACTOR_DTO_TO_ACTOR)
 	@Mapping(source = "id", target = "id")
-	@InheritConfiguration(name = "mapActorDTOToActor")
 	Actor mapRequestUpdateDTOToActor(
 			final RequestActualizarActorDTO requestActualizarActorDTO);
 
@@ -58,14 +62,14 @@ public interface ActorMapper
 	ResponseActorDTO mapActorToResponseActorDTO(
 			final Actor actor);
 
-	List<ResponseActorDTO> mapActorToResponseActorDTOList(
+	List<ResponseActorDTO> mapActorToResponseActorDTO(
 			final List<Actor> actores);
 
 	//
 	// UTILITIES AND CUSTOM MAPPERS
 	//
 
-	@Named("extractActorIds")
+	@Named(EXTRACT_ACTOR_IDS)
 	static List<Long> extractActorIds(final List<Actor> source) {
 		if (source == null) {
 			return null;
