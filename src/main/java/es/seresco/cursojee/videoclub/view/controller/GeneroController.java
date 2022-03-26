@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.seresco.cursojee.videoclub.business.service.GeneroService;
 import es.seresco.cursojee.videoclub.view.dto.genero.GeneroDTO;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(path = "/api/privado/generos/")
+@Slf4j
 public class GeneroController {
 
 	@Resource

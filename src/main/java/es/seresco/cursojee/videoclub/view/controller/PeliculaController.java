@@ -26,9 +26,11 @@ import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPelicula
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestBorrarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(path = "/api/privado/peliculas/")
+@Slf4j
 public class PeliculaController {
 
 	@Resource

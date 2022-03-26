@@ -26,10 +26,12 @@ import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Service(PeliculaService.BEAN_NAME)
 @Setter
 @NoArgsConstructor
+@Slf4j
 public class PeliculaServiceImpl implements PeliculaService {
 
 	private static final AtomicLong backedIdSeeder = new AtomicLong(0L);
@@ -46,6 +48,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 	@Override
 	public List<ResponsePeliculaDTO> findAll()
 	{
+		log.debug("findAll()");
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(backedReference());
 	}
 
@@ -54,6 +57,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 			final @NonNull Long id)
 					throws ElementoNoExistenteException
 	{
+		log.debug("findById({})", id);
 		Pelicula pelicula = findInternal(id);
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
@@ -62,6 +66,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 	public ResponsePeliculaDTO create(
 			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO) throws ElementoNoExistenteException
 	{
+		log.debug("create({})", requestCrearPeliculaDTO);
 		Pelicula pelicula = peliculaMapper.mapRequestCreateDTOToPelicula(requestCrearPeliculaDTO);
 		pelicula.setId(nextId());
 
@@ -81,6 +86,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 			final @NonNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO)
 					throws ElementoNoExistenteException
 	{
+		log.debug("update({})", requestActualizarPeliculaDTO);
 		Long id;
 		Objects.requireNonNull(id = requestActualizarPeliculaDTO.getId(), "`peliculaDTO.id` must be non-null");
 		Pelicula pelicula = findInternal(id);
@@ -105,6 +111,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 			final @NonNull RequestBorrarPeliculaDTO requestBorrarPeliculaDTO)
 					throws ElementoNoExistenteException
 	{
+		log.debug("delete({})", requestBorrarPeliculaDTO);
 		Long id;
 		Objects.requireNonNull(id = requestBorrarPeliculaDTO.getId(), "`peliculaDTO.id` must be non-null");
 
@@ -134,6 +141,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 
 
 	protected Long nextId() {
+		log.debug("nextId({})", backedIdSeeder.get());
 		return backedIdSeeder.incrementAndGet();
 	}
 
@@ -145,6 +153,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 	}
 
 	protected List<Pelicula> initBackedReference() {
+		log.debug("initBackedReference");
 		return backedRef
 			// init collection if not yet initialized
 			.updateAndGet(ref -> ref == null ? new LinkedList<>(): ref);

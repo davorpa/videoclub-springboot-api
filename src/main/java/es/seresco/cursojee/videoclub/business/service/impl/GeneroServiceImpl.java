@@ -22,10 +22,12 @@ import es.seresco.cursojee.videoclub.mapper.GeneroMapper;
 import es.seresco.cursojee.videoclub.view.dto.genero.GeneroDTO;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Service(GeneroService.BEAN_NAME)
 @Setter
 @NoArgsConstructor
+@Slf4j
 public class GeneroServiceImpl implements GeneroService {
 
 	private static final AtomicLong backedIdSeeder = new AtomicLong(0L);
@@ -44,17 +46,20 @@ public class GeneroServiceImpl implements GeneroService {
 		generos.add(Genero.builder().codigo(CIENCIA_FICCION).descripcion("Ciencia-Ficción").build());
 		generos.add(Genero.builder().codigo(ROMANTICA).descripcion("Romántica").build());
 		generos.add(Genero.builder().codigo(HISTORICA).descripcion("Histórica").build());
+		log.debug("Initialized with: {}", generos);
 	}
 
 
 	@Override
 	public List<GeneroDTO> findAll()
 	{
+		log.debug("findAll");
 		return generoMapper.fromGeneros(backedReference());
 	}
 
 
 	protected Long nextId() {
+		log.debug("nextId");
 		return backedIdSeeder.incrementAndGet();
 	}
 
@@ -66,6 +71,7 @@ public class GeneroServiceImpl implements GeneroService {
 	}
 
 	protected List<Genero> initBackedReference() {
+		log.debug("initBackedReference");
 		return backedRef
 			// init collection if not yet initialized
 			.updateAndGet(ref -> ref == null ? new LinkedList<>(): ref);

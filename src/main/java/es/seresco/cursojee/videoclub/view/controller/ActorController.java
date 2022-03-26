@@ -26,9 +26,11 @@ import es.seresco.cursojee.videoclub.view.dto.actor.RequestActualizarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestBorrarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.ResponseActorDTO;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(path = "/api/privado/actores/")
+@Slf4j
 public class ActorController {
 
 	@Resource

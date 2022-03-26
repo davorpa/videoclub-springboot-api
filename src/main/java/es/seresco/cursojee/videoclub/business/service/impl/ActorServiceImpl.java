@@ -23,10 +23,12 @@ import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.ResponseActorDTO;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Service(ActorService.BEAN_NAME)
 @Setter
 @NoArgsConstructor
+@Slf4j
 public class ActorServiceImpl implements ActorService {
 
 	private static final AtomicLong backedIdSeeder = new AtomicLong(0L);
@@ -40,6 +42,7 @@ public class ActorServiceImpl implements ActorService {
 	@Override
 	public List<ResponseActorDTO> findAll()
 	{
+		log.debug("findAll");
 		return actorMapper.mapActorToResponseActorDTO(backedReference());
 	}
 
@@ -48,6 +51,7 @@ public class ActorServiceImpl implements ActorService {
 			final @NonNull Long id)
 					throws ElementoNoExistenteException
 	{
+		log.debug("findById({})", id);
 		Actor actor = findInternal(id);
 		return actorMapper.mapActorToResponseActorDTO(actor);
 	}
@@ -65,6 +69,7 @@ public class ActorServiceImpl implements ActorService {
 	public ResponseActorDTO create(
 			final @NonNull RequestCrearActorDTO requestCrearActorDTO)
 	{
+		log.debug("create({})", requestCrearActorDTO);
 		Actor actor = actorMapper.mapRequestCreateDTOToActor(requestCrearActorDTO);
 		actor.setId(nextId());
 		initBackedReference().add(actor);
@@ -76,6 +81,7 @@ public class ActorServiceImpl implements ActorService {
 			final @NonNull RequestActualizarActorDTO requestActualizarActorDTO)
 					throws ElementoNoExistenteException
 	{
+		log.debug("update({})", requestActualizarActorDTO);
 		Long id;
 		Objects.requireNonNull(id = requestActualizarActorDTO.getId(), "`actorDTO.id` must be non-null");
 		Actor actor = findInternal(id);
@@ -88,6 +94,7 @@ public class ActorServiceImpl implements ActorService {
 			final @NonNull RequestBorrarActorDTO requestBorrarActorDTO)
 					throws ElementoNoExistenteException
 	{
+		log.debug("delete({})", requestBorrarActorDTO);
 		Long id;
 		Objects.requireNonNull(id = requestBorrarActorDTO.getId(), "`actorDTO.id` must be non-null");
 		final List<Actor> actores = backedReference();
@@ -112,6 +119,7 @@ public class ActorServiceImpl implements ActorService {
 
 
 	protected Long nextId() {
+		log.debug("nextId({})", backedIdSeeder.get());
 		return backedIdSeeder.incrementAndGet();
 	}
 
@@ -123,6 +131,7 @@ public class ActorServiceImpl implements ActorService {
 	}
 
 	protected List<Actor> initBackedReference() {
+		log.debug("initBackedReference");
 		return backedRef
 			// init collection if not yet initialized
 			.updateAndGet(ref -> ref == null ? new LinkedList<>(): ref);

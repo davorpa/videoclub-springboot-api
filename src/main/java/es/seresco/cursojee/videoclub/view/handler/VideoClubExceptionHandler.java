@@ -23,8 +23,10 @@ import org.springframework.web.util.WebUtils;
 import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
 import es.seresco.cursojee.videoclub.exception.PeticionInconsistenteException;
 import es.seresco.cursojee.videoclub.view.dto.ErrorInfo;
+import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
+@Slf4j
 public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
@@ -45,6 +47,11 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 			else {
 				body = buildErrorInfo(ex, request);
 			}
+		}
+		if (log.isInfoEnabled()) {
+			log.info("Requested URL {} ends with a {} :: {}",
+					resolveRequestURL(request, null), status, body,
+					ex);
 		}
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
@@ -140,10 +147,17 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 		PeticionInconsistenteException.class
 	})
 	@Nullable
-	public ResponseEntity<String> handlePeticionInconsistenteException(
+	public ResponseEntity<Object> handlePeticionInconsistenteException(
 			final PeticionInconsistenteException ex, WebRequest request)
 	{
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getLocalizedMessage());
+		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+		String body = ex.getLocalizedMessage();
+		if (log.isInfoEnabled()) {
+			log.info("Requested URL {} ends with a {} :: {}",
+					resolveRequestURL(request, null), status, body,
+					ex);
+		}
+		return ResponseEntity.status(status).body(body);
 	}
 
 	protected Object buildErrorInfoForElementoNoExistente(
