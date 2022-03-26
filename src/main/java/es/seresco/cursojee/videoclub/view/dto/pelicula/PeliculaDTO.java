@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import es.seresco.cursojee.videoclub.view.dto.CodigoGeneroEnum;
+import es.seresco.cursojee.videoclub.view.dto.genero.CodigoGeneroEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
