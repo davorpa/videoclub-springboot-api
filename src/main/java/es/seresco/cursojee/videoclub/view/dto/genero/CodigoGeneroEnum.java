@@ -4,7 +4,7 @@ public enum CodigoGeneroEnum
 {
 	COMEDIA,
 	WESTERN,
-	CIENCIA_FICCON,
+	CIENCIA_FICCION,
 	ROMANTICA,
 	HISTORICA
 }
