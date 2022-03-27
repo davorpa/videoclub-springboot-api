@@ -1,6 +1,5 @@
 package es.seresco.cursojee.videoclub.business.model;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SuperBuilder
-public class Pelicula implements Serializable, Identificable<Long>
+public class Pelicula implements Entity<Long>
 {
 	private static final long serialVersionUID = 2258210047583395920L;
 
