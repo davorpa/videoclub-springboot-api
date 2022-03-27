@@ -1,8 +1,5 @@
 package es.seresco.cursojee.videoclub.business.model;
 
-import java.io.Serializable;
-
-import es.seresco.cursojee.videoclub.view.dto.Identificable;
 import es.seresco.cursojee.videoclub.view.dto.genero.CodigoGeneroEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SuperBuilder
-public class Genero implements Serializable, Identificable<CodigoGeneroEnum>
+public class Genero implements Entity<CodigoGeneroEnum>
 {
 	private static final long serialVersionUID = -5244464357032577373L;
 

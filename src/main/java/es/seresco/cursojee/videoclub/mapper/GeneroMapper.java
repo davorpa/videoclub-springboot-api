@@ -3,6 +3,7 @@ package es.seresco.cursojee.videoclub.mapper;
 import java.util.List;
 
 import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 
 import es.seresco.cursojee.videoclub.business.model.Genero;
@@ -19,8 +20,9 @@ public interface GeneroMapper
 	Genero toGenero(
 			final GeneroDTO generoDto);
 
+	@IterableMapping(elementTargetType = Genero.class)
 	List<Genero> toGeneros(
-			final List<GeneroDTO> generoDtos);
+			final Iterable<GeneroDTO> generoDtos);
 
 	//
 	// FROM ENTITY TO DTO
@@ -31,6 +33,6 @@ public interface GeneroMapper
 			final Genero genero);
 
 	List<GeneroDTO> fromGeneros(
-			final List<Genero> generos);
+			final Iterable<Genero> generos);
 
 }
