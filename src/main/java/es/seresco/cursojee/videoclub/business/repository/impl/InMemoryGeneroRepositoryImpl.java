@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.PostConstruct;
@@ -20,17 +19,19 @@ import org.springframework.stereotype.Repository;
 import es.seresco.cursojee.videoclub.business.model.Genero;
 import es.seresco.cursojee.videoclub.business.repository.GeneroRepository;
 import es.seresco.cursojee.videoclub.business.repository.core.AbstractRepository;
+import es.seresco.cursojee.videoclub.business.repository.core.ReadOnlyRepository;
 import es.seresco.cursojee.videoclub.view.dto.Identificable;
 import es.seresco.cursojee.videoclub.view.dto.genero.CodigoGeneroEnum;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository(GeneroRepository.BEAN_NAME)
 @Slf4j
-public class InMemoryGeneroRepositoryImpl extends AbstractRepository<Genero, CodigoGeneroEnum>
-		implements GeneroRepository
+public class InMemoryGeneroRepositoryImpl
+		extends AbstractRepository<Genero, CodigoGeneroEnum>
+		implements ReadOnlyRepository<Genero, CodigoGeneroEnum>,
+				GeneroRepository
 {
 
-	private static final AtomicLong backedIdSeeder = new AtomicLong(0L);
 	private static final AtomicReference<List<Genero>> backedRef = new AtomicReference<>();
 
 
@@ -44,12 +45,6 @@ public class InMemoryGeneroRepositoryImpl extends AbstractRepository<Genero, Cod
 		generos.add(Genero.builder().codigo(ROMANTICA).descripcion("Romántica").build());
 		generos.add(Genero.builder().codigo(HISTORICA).descripcion("Histórica").build());
 		log.debug("Initialized with: {}", generos);
-	}
-
-	protected Long nextId()
-	{
-		log.debug("nextId({})", backedIdSeeder.get());
-		return backedIdSeeder.incrementAndGet();
 	}
 
 	protected Optional<List<Genero>> backedReference()
