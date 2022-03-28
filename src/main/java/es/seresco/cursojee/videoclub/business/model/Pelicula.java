@@ -46,7 +46,11 @@ public class Pelicula implements Entity<Long>
 		return actores;
 	}
 
-	public List<Long> getActoresIds() {
+	/**
+	 * @see #getActores()
+	 * @see Identificable#getId()
+	 */
+	public final List<Long> getActoresIds() {
 		return _getActores().stream()
 				.map(Identificable::getId)
 				.collect(Collectors.toCollection(LinkedList::new));
