@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import es.seresco.cursojee.videoclub.business.model.Genero;
@@ -47,7 +48,7 @@ public class InMemoryGeneroRepositoryImpl
 		log.debug("Initialized with: {}", generos);
 	}
 
-	protected Optional<List<Genero>> backedReference()
+	protected @NonNull Optional<List<Genero>> backedReference()
 	{
 		List<Genero> ref;
 //		ref = backedRef.getAcquire();
@@ -57,7 +58,7 @@ public class InMemoryGeneroRepositoryImpl
 		return Optional.ofNullable(ref);
 	}
 
-	protected List<Genero> initBackedReference()
+	protected @NonNull List<Genero> initBackedReference()
 	{
 		log.debug("initBackedReference(empty={})", backedReference().isEmpty());
 		return backedRef
@@ -66,7 +67,7 @@ public class InMemoryGeneroRepositoryImpl
 	}
 
 	@Override
-	public Collection<Genero> findAll()
+	public @NonNull Collection<Genero> findAll()
 	{
 		Optional<List<Genero>> ref = backedReference();
 		log.debug("findAllGeneros(empty={})", ref.isEmpty());
@@ -74,7 +75,7 @@ public class InMemoryGeneroRepositoryImpl
 	}
 
 	@Override
-	public Optional<Genero> findById(final CodigoGeneroEnum id)
+	public @NonNull Optional<Genero> findById(final CodigoGeneroEnum id)
 	{
 		Optional<List<Genero>> ref = backedReference();
 		log.debug("findByIdGenero(empty={})", ref.isEmpty());
@@ -85,7 +86,7 @@ public class InMemoryGeneroRepositoryImpl
 	}
 
 	@Override
-	public long count()
+	public @NonNull long count()
 	{
 		Optional<List<Genero>> ref = backedReference();
 		log.debug("countGeneros(empty={})", ref.isEmpty());
