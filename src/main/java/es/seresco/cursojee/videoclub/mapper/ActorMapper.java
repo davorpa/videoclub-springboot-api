@@ -1,5 +1,6 @@
 package es.seresco.cursojee.videoclub.mapper;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public interface ActorMapper
 			final Actor actor);
 
 	List<ResponseActorDTO> mapActorToResponseActorDTO(
-			final List<Actor> actores);
+			final Collection<Actor> actores);
 
 	//
 	// UTILITIES AND CUSTOM MAPPERS
