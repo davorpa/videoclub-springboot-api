@@ -22,7 +22,7 @@ Teniendo las siguientes entidades:
 3. Actor:
      - Nombre. Obligatorio
      - Primer Apellido: Obligatorio
-     - Segundo Apellido: Sólo podrá venir rellenado si está rellenado el primer apellido.
+     - Segundo Apellido: Sólo podrá venir relleno si está cubierto el primer apellido.
      - Fecha de Nacimiento: Obligatorio y mayor que 1/1/1900
 
 Se pide:
@@ -32,21 +32,22 @@ Se pide:
 3. Crear métodos CRUD para las películas.
 4. Crear interfaz para dar de alta actores y poder modificar sus datos.
 5. Crear interfaz para localizar películas por título, año, duración, nombre del autor, primer apellido del autor.
+6. Lass validaciones se realizarán mediante constraints en los DTO correspondientes.
 
 ## API Urls:
 
-- `GET` -> `/api/privado/generos/` listar géneros.
+- `GET` -> `/api/privado/generos/`: listar géneros.
 
-- `GET` -> `/api/privado/peliculas/` listar películas.
-- `GET` -> `/api/privado/peliculas/{id}` Obtener una película.
-- `POST` -> `/api/privado/peliculas` Crear Película.
-- `PUT` -> `/api/privado/peliculas/{id}` Modificar película.
-- `DELETE` -> `/api/privado/peliculas/{id}` Borrar película.
+- `GET` -> `/api/privado/peliculas/`: listar películas.
+- `GET` -> `/api/privado/peliculas/{id}`: Obtener una película.
+- `POST` -> `/api/privado/peliculas`: Crear Película.
+- `PUT` -> `/api/privado/peliculas/{id}`: Modificar película.
+- `DELETE` -> `/api/privado/peliculas/{id}`: Borrar película.
 
-- `GET` -> `/api/privado/actores/` listar actores.
-- `GET` -> `/api/privado/actores/{id}` Obtener una actor.
-- `POST` -> `/api/privado/actores` Crear actor.
-- `PUT` -> `/api/privado/actores/{id}` Modificar actor.
-- `DELETE` -> `/api/privado/actores/{id}` Borrar actor.
+- `GET` -> `/api/privado/actores/`: listar actores.
+- `GET` -> `/api/privado/actores/{id}`: Obtener una actor.
+- `POST` -> `/api/privado/actores`: Crear actor.
+- `PUT` -> `/api/privado/actores/{id}`: Modificar actor.
+- `DELETE` -> `/api/privado/actores/{id}`: Borrar actor.
 
-- `GET` -> `/api/privado/peliculas/search` Localizar películas.
+- `GET` -> `/api/privado/peliculas/search`: Localizar películas.
