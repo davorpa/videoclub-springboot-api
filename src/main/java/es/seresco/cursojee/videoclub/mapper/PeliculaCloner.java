@@ -1,7 +1,9 @@
 package es.seresco.cursojee.videoclub.mapper;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.mapstruct.BeforeMapping;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -10,10 +12,11 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.control.DeepClone;
 
+import es.seresco.cursojee.videoclub.business.model.Actor;
 import es.seresco.cursojee.videoclub.business.model.Pelicula;
 
 @Mapper(componentModel = "spring",
-		collectionMappingStrategy = CollectionMappingStrategy.ACCESSOR_ONLY,
+		collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
 		uses = { ActorCloner.class })
 public interface PeliculaCloner
 {
@@ -22,6 +25,19 @@ public interface PeliculaCloner
 	static final String DEEPCLONE = "Pelicula#deepClone";
 
 
+	@BeforeMapping
+	default void setupCopyInto(
+			final Pelicula source,
+			final @MappingTarget Pelicula target)
+	{
+		// emulate collectionMappingStrategy: ADDER_PREFERRED + ACCESOR_ONLY
+		// because setActores returns a new reference to ensure encapsulation
+		Collection<Actor> actores = source.getActores();
+		if (actores != null) {
+			target.removeActores();
+			//target.addActores(actores);
+		}
+	}
 
 	/**
 	 * Transfiere haciendo una copia profunda de todas las propiedades

@@ -1,12 +1,8 @@
 package es.seresco.cursojee.videoclub.business.service.impl;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Resource;
 
@@ -15,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 import es.seresco.cursojee.videoclub.business.model.Actor;
 import es.seresco.cursojee.videoclub.business.model.Pelicula;
+import es.seresco.cursojee.videoclub.business.repository.PeliculaRepository;
 import es.seresco.cursojee.videoclub.business.service.ActorService;
 import es.seresco.cursojee.videoclub.business.service.PeliculaService;
 import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
 import es.seresco.cursojee.videoclub.mapper.PeliculaMapper;
-import es.seresco.cursojee.videoclub.view.dto.Identificable;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestBorrarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
@@ -32,11 +28,11 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @NoArgsConstructor
 @Slf4j
-public class PeliculaServiceImpl implements PeliculaService {
+public class PeliculaServiceImpl implements PeliculaService
+{
 
-	private static final AtomicLong backedIdSeeder = new AtomicLong(0L);
-	private static final AtomicReference<List<Pelicula>> backedRef = new AtomicReference<>();
-
+	@Resource
+	private PeliculaRepository peliculaRepository;
 
 	@Resource
 	private PeliculaMapper peliculaMapper;
@@ -48,8 +44,8 @@ public class PeliculaServiceImpl implements PeliculaService {
 	@Override
 	public List<ResponsePeliculaDTO> findAll()
 	{
-		log.debug("findAll()");
-		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(backedReference());
+		log.debug("findAllPeliculas()");
+		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(peliculaRepository.findAll());
 	}
 
 	@Override
@@ -57,7 +53,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 			final @NonNull Long id)
 					throws ElementoNoExistenteException
 	{
-		log.debug("findById({})", id);
+		log.debug("findPeliculaById({})", id);
 		Pelicula pelicula = findInternal(id);
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
@@ -66,17 +62,18 @@ public class PeliculaServiceImpl implements PeliculaService {
 	public ResponsePeliculaDTO create(
 			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO) throws ElementoNoExistenteException
 	{
-		log.debug("create({})", requestCrearPeliculaDTO);
+		log.debug("createPelicula({})", requestCrearPeliculaDTO);
 		Pelicula pelicula = peliculaMapper.mapRequestCreateDTOToPelicula(requestCrearPeliculaDTO);
-		pelicula.setId(nextId());
 
+		// map model details
 		for (final Long idActor : requestCrearPeliculaDTO.getActores()) {
-			pelicula.addActor(actorService.findModelById(idActor)
+			Actor actor = actorService.findModelById(idActor)
 					.orElseThrow(ElementoNoExistenteException.creater(
-							Pelicula.class, idActor)));
+							Pelicula.class, idActor));
+			pelicula.addActor(actor);
 		}
 
-		initBackedReference().add(pelicula);
+		pelicula = peliculaRepository.create(pelicula);
 
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
@@ -86,23 +83,25 @@ public class PeliculaServiceImpl implements PeliculaService {
 			final @NonNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO)
 					throws ElementoNoExistenteException
 	{
-		log.debug("update({})", requestActualizarPeliculaDTO);
+		log.debug("updatePelicula({})", requestActualizarPeliculaDTO);
 		Long id;
 		Objects.requireNonNull(id = requestActualizarPeliculaDTO.getId(), "`peliculaDTO.id` must be non-null");
-		Pelicula pelicula = findInternal(id);
-
+		// build entity to update
+		Pelicula pelicula = Pelicula.builder().id(id).build();
 		peliculaMapper.updatePeliculaFromDTO(requestActualizarPeliculaDTO, pelicula);
-		Collection<Actor> actores = new LinkedHashSet<>();
 		for (final Long idActor : requestActualizarPeliculaDTO.getActores()) {
-			actores.add(actorService.findModelById(idActor)
+			Actor actor = actorService.findModelById(idActor)
 					.orElseThrow(ElementoNoExistenteException.creater(
-							Pelicula.class, id)));
+							Pelicula.class, idActor));
+			pelicula.addActor(actor);
 		}
-		synchronized (pelicula) {
-			pelicula.removeActores();
-			pelicula.addActores(actores);
+		// update
+		try {
+			pelicula = peliculaRepository.update(pelicula);
+		} catch (NoSuchElementException e) {
+			throw new ElementoNoExistenteException(Pelicula.class, id);
 		}
-
+		// transform back to DTO
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
 	}
 
@@ -111,52 +110,22 @@ public class PeliculaServiceImpl implements PeliculaService {
 			final @NonNull RequestBorrarPeliculaDTO requestBorrarPeliculaDTO)
 					throws ElementoNoExistenteException
 	{
-		log.debug("delete({})", requestBorrarPeliculaDTO);
+		log.debug("deletePelicula({})", requestBorrarPeliculaDTO);
 		Long id;
 		Objects.requireNonNull(id = requestBorrarPeliculaDTO.getId(), "`peliculaDTO.id` must be non-null");
 
-		final Pelicula pelicula;
-		final List<Pelicula> peliculas = backedReference();
-		if (peliculas == null || !peliculas.remove(pelicula = findInternal(id))) {
+		final Pelicula pelicula = findInternal(id);
+		if (pelicula == null || !peliculaRepository.delete(pelicula)) {
 			throw new ElementoNoExistenteException(Pelicula.class, id);
 		}
-		// perform cascade clean-up to avoid memory leaks
-		pelicula.removeActores();
 	}
 
 
 	protected Pelicula findInternal(final Long id)
 			throws ElementoNoExistenteException
 	{
-		final List<Pelicula> peliculas = backedReference();
-		if (peliculas != null) {
-			return peliculas.stream()
-					.filter(Identificable.finder(id))
-					.findFirst()
-					.orElseThrow(ElementoNoExistenteException.creater(
-							Pelicula.class, id));
-		}
-		throw new ElementoNoExistenteException(Pelicula.class, id);
-	}
-
-
-	protected Long nextId() {
-		log.debug("nextId({})", backedIdSeeder.get());
-		return backedIdSeeder.incrementAndGet();
-	}
-
-	protected List<Pelicula> backedReference() {
-//		return backedRef.getAcquire();
-//		return backedRef.getOpaque();
-//		return backedRef.getPlain();
-		return backedRef.get();
-	}
-
-	protected List<Pelicula> initBackedReference() {
-		log.debug("initBackedReference");
-		return backedRef
-			// init collection if not yet initialized
-			.updateAndGet(ref -> ref == null ? new LinkedList<>(): ref);
+		return peliculaRepository.findById(id)
+				.orElseThrow(ElementoNoExistenteException.creater(Pelicula.class, id));
 	}
 
 }

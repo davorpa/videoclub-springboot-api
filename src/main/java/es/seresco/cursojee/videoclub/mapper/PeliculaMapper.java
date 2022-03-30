@@ -1,5 +1,6 @@
 package es.seresco.cursojee.videoclub.mapper;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,6 @@ public interface PeliculaMapper
 	//
 	// FROM DTO TO ENTITY
 	//
-
 
 	@Named(PELICULA_DTO_TO_PELICULA)
 	@Mapping(source = "anio", target = "anio")
@@ -66,7 +66,7 @@ public interface PeliculaMapper
 			final Pelicula pelicula);
 
 	public List<ResponsePeliculaDTO> mapPeliculaToResponsePeliculaDTO(
-			final List<Pelicula> peliculas);
+			final Collection<Pelicula> peliculas);
 
 	//
 	// UTILITIES AND CUSTOM MAPPERS
