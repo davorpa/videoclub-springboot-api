@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.seresco.cursojee.videoclub.business.model.Actor;
 import es.seresco.cursojee.videoclub.business.repository.ActorRepository;
@@ -24,6 +25,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Service(ActorService.BEAN_NAME)
+@Transactional(rollbackFor = ElementoNoExistenteException.class)
 @Setter
 @NoArgsConstructor
 @Slf4j
@@ -37,6 +39,7 @@ public class ActorServiceImpl implements ActorService
 	private ActorMapper actorMapper;
 
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<ResponseActorDTO> findAll()
 	{
@@ -44,6 +47,7 @@ public class ActorServiceImpl implements ActorService
 		return actorMapper.mapActorToResponseActorDTO(actorRepository.findAll());
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public ResponseActorDTO findById(
 			final @NonNull Long id)
@@ -54,6 +58,7 @@ public class ActorServiceImpl implements ActorService
 		return actorMapper.mapActorToResponseActorDTO(actor);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public Optional<Actor> findModelById(Long id) {
 		log.debug("findActorById({})", id);
