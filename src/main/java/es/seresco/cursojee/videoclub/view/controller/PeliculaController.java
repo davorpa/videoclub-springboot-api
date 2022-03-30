@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.seresco.cursojee.videoclub.business.service.PeliculaService;
@@ -36,11 +38,11 @@ public class PeliculaController {
 	@Resource
 	private PeliculaService peliculaService;
 
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponsePeliculaDTO>> getPeliculas()
+	public @ResponseBody List<ResponsePeliculaDTO> getPeliculas()
 	{
-		List<ResponsePeliculaDTO> lista = peliculaService.findAll();
-		return ResponseEntity.ok(lista);
+		return peliculaService.findAll();
 	}
 
 	@GetMapping(path = "/{idPelicula}", produces = MediaType.APPLICATION_JSON_VALUE)

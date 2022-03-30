@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.seresco.cursojee.videoclub.business.service.ActorService;
@@ -36,11 +38,11 @@ public class ActorController {
 	@Resource
 	private ActorService actorService;
 
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ResponseActorDTO>> getActores()
+	public @ResponseBody List<ResponseActorDTO> getActores()
 	{
-		List<ResponseActorDTO> lista = actorService.findAll();
-		return ResponseEntity.ok(lista);
+		return actorService.findAll();
 	}
 
 	@GetMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
