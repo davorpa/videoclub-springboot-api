@@ -17,13 +17,15 @@ import es.seresco.cursojee.videoclub.view.dto.actor.ActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestActualizarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.ResponseActorDTO;
+import es.seresco.cursojee.videoclub.view.dto.pelicula.PeliculaActorDTO;
 
 @Mapper(componentModel = "spring")
 public interface ActorMapper
 {
 
 	static final String ACTOR_DTO_TO_ACTOR = "actorDTOToActor";
-	static final String EXTRACT_ACTOR_IDS  = "extractActorIds";
+	static final String EXTRACT_ACTOR_IDS = "extractActorIds";
+	static final String ACTOR_TO_PELICULA_ACTOR_DTO  = "Actor#toPeliculaActorDTO";
 
 	//
 	// FROM DTO TO ENTITY
@@ -61,6 +63,13 @@ public interface ActorMapper
 	@Mapping(source = "segundoApellido", target = "segundoApellido")
 	@Mapping(source = "fechaNacimiento", target = "fechaNacimiento")
 	ResponseActorDTO mapActorToResponseActorDTO(
+			final Actor actor);
+
+	@Named(ACTOR_TO_PELICULA_ACTOR_DTO)
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "nombreCompleto", target = "nombre")
+	@Mapping(source = "fechaNacimiento", target = "fechaNacimiento")
+	PeliculaActorDTO mapActorToPeliculaActorDTO(
 			final Actor actor);
 
 	List<ResponseActorDTO> mapActorToResponseActorDTO(

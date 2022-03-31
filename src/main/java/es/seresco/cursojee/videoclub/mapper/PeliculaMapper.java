@@ -17,6 +17,7 @@ import es.seresco.cursojee.videoclub.view.dto.pelicula.PeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
+import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponseSearchPeliculaDTO;
 
 @Mapper(componentModel = "spring", uses = { ActorMapper.class })
 public interface PeliculaMapper
@@ -66,6 +67,18 @@ public interface PeliculaMapper
 			final Pelicula pelicula);
 
 	public List<ResponsePeliculaDTO> mapPeliculaToResponsePeliculaDTO(
+			final Collection<Pelicula> peliculas);
+
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "anio", target = "anio")
+	@Mapping(source = "genero.codigo", target = "codigoGenero")
+	@Mapping(source = "duracion", target = "duracion")
+	@Mapping(source = "titulo", target = "titulo")
+	@Mapping(source = "actores", target = "actores", qualifiedByName = ActorMapper.ACTOR_TO_PELICULA_ACTOR_DTO)
+	public ResponseSearchPeliculaDTO mapPeliculaToSearchDTO(
+			final Pelicula pelicula);
+
+	public List<ResponseSearchPeliculaDTO> mapPeliculaToSearchDTO(
 			final Collection<Pelicula> peliculas);
 
 	//

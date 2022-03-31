@@ -1,8 +1,14 @@
 package es.seresco.cursojee.videoclub.business.service.impl;
 
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -17,10 +23,12 @@ import es.seresco.cursojee.videoclub.business.service.ActorService;
 import es.seresco.cursojee.videoclub.business.service.PeliculaService;
 import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
 import es.seresco.cursojee.videoclub.mapper.PeliculaMapper;
+import es.seresco.cursojee.videoclub.view.dto.pelicula.CustomSearchPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestBorrarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
+import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponseSearchPeliculaDTO;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +57,48 @@ public class PeliculaServiceImpl implements PeliculaService
 	{
 		log.debug("findAllPeliculas()");
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(peliculaRepository.findAll());
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<ResponseSearchPeliculaDTO> search(
+			final CustomSearchPeliculaDTO query)
+	{
+		log.debug("searchPeliculas({})", query);
+		if (query == null) {
+			return peliculaMapper.mapPeliculaToSearchDTO(peliculaRepository.findAll());
+		}
+		// build predicate
+		Predicate<Pelicula> predicate = Objects::nonNull;
+		if (query.getTitulo() != null) {
+			predicate = predicate.and(pelicula -> containsIgnoreCase(
+					pelicula.getTitulo(), query.getTitulo()));
+		}
+		if (query.getAnio() != null) {
+			predicate = predicate.and(pelicula -> Objects.equals(
+					pelicula.getAnio(), query.getAnio()));
+		}
+		if (query.getDuracion() != null) {
+			predicate = predicate.and(pelicula -> Objects.equals(
+					pelicula.getDuracion(), query.getDuracion()));
+		}
+		if (query.getActor() != null) {
+			final String value = query.getActor();
+			final Predicate<Actor> nombrePredicate = actor -> containsIgnoreCase(
+					actor.getNombre(), value);
+			final Predicate<Actor> apell1Predicate = actor -> containsIgnoreCase(
+					actor.getPrimerApellido(), value);
+			final Predicate<Actor> apell2Predicate = actor -> containsIgnoreCase(
+					actor.getPrimerApellido(), value);
+			predicate = predicate.and(pelicula -> !pelicula.findActores(
+						nombrePredicate.or(apell1Predicate).or(apell2Predicate)
+					).isEmpty());
+		}
+		// filter an collect
+		Collection<Pelicula> peliculas = peliculaRepository.findAll().stream()
+				.filter(predicate)
+				.collect(Collectors.toCollection(LinkedList::new));
+		return peliculaMapper.mapPeliculaToSearchDTO(peliculas);
 	}
 
 	@Transactional(readOnly = true)

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 import es.seresco.cursojee.videoclub.business.service.PeliculaService;
 import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
 import es.seresco.cursojee.videoclub.exception.PeticionInconsistenteException;
+import es.seresco.cursojee.videoclub.view.dto.pelicula.CustomSearchPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestBorrarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestCrearPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponsePeliculaDTO;
+import es.seresco.cursojee.videoclub.view.dto.pelicula.ResponseSearchPeliculaDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -43,6 +46,40 @@ public class PeliculaController {
 	public @ResponseBody List<ResponsePeliculaDTO> getPeliculas()
 	{
 		return peliculaService.findAll();
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE, params = "q")
+	public @ResponseBody List<ResponseSearchPeliculaDTO> search(
+			final @RequestParam("q") String qs)
+	{
+		// TODO support a search by a "q" param to have a fluent form:
+		//
+		//         title:"Film" AND actor:*"ie" OR year:>1900 ...
+		//
+		//      where ":" represents the separator and equal operator
+		//            ">" great than
+		//            "*" ilike operator
+		CustomSearchPeliculaDTO query = CustomSearchPeliculaDTO.builder().build();
+		return peliculaService.search(query);
+	}
+
+
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<ResponseSearchPeliculaDTO> search(
+				final @RequestParam(value = "title",    required = false) String titulo,
+				final @RequestParam(value = "duration", required = false) Integer duracion,
+				final @RequestParam(value = "year",     required = false) Integer anio,
+				final @RequestParam(value = "actor",    required = false) String actor)
+	{
+		CustomSearchPeliculaDTO query = CustomSearchPeliculaDTO.builder()
+				.titulo(titulo)
+				.duracion(duracion)
+				.anio(anio)
+				.actor(actor)
+				.build();
+		return peliculaService.search(query);
 	}
 
 	@GetMapping(path = "/{idPelicula}", produces = MediaType.APPLICATION_JSON_VALUE)
