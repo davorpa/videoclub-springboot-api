@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,7 @@ public class PeliculaServiceImpl implements PeliculaService
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<ResponsePeliculaDTO> findAll()
+	public @NonNull List<ResponsePeliculaDTO> findAll()
 	{
 		log.debug("findAllPeliculas()");
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(peliculaRepository.findAll());
@@ -61,8 +62,8 @@ public class PeliculaServiceImpl implements PeliculaService
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<ResponseSearchPeliculaDTO> search(
-			final CustomSearchPeliculaDTO query)
+	public @NonNull List<ResponseSearchPeliculaDTO> search(
+			final @Nullable CustomSearchPeliculaDTO query)
 	{
 		log.debug("searchPeliculas({})", query);
 		if (query == null) {
@@ -103,7 +104,7 @@ public class PeliculaServiceImpl implements PeliculaService
 
 	@Transactional(readOnly = true)
 	@Override
-	public ResponsePeliculaDTO findById(
+	public @NonNull ResponsePeliculaDTO findById(
 			final @NonNull Long id)
 					throws ElementoNoExistenteException
 	{
@@ -113,7 +114,7 @@ public class PeliculaServiceImpl implements PeliculaService
 	}
 
 	@Override
-	public ResponsePeliculaDTO create(
+	public @NonNull ResponsePeliculaDTO create(
 			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO) throws ElementoNoExistenteException
 	{
 		log.debug("createPelicula({})", requestCrearPeliculaDTO);
@@ -133,7 +134,7 @@ public class PeliculaServiceImpl implements PeliculaService
 	}
 
 	@Override
-	public ResponsePeliculaDTO update(
+	public @NonNull ResponsePeliculaDTO update(
 			final @NonNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO)
 					throws ElementoNoExistenteException
 	{

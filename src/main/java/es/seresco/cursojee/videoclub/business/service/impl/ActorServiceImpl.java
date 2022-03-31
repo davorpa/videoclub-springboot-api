@@ -41,7 +41,7 @@ public class ActorServiceImpl implements ActorService
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<ResponseActorDTO> findAll()
+	public @NonNull List<ResponseActorDTO> findAll()
 	{
 		log.debug("findAllActores");
 		return actorMapper.mapActorToResponseActorDTO(actorRepository.findAll());
@@ -49,7 +49,7 @@ public class ActorServiceImpl implements ActorService
 
 	@Transactional(readOnly = true)
 	@Override
-	public ResponseActorDTO findById(
+	public @NonNull ResponseActorDTO findById(
 			final @NonNull Long id)
 					throws ElementoNoExistenteException
 	{
@@ -60,13 +60,13 @@ public class ActorServiceImpl implements ActorService
 
 	@Transactional(readOnly = true)
 	@Override
-	public Optional<Actor> findModelById(Long id) {
+	public @NonNull Optional<Actor> findModelById(Long id) {
 		log.debug("findActorById({})", id);
 		return actorRepository.findById(id);
 	}
 
 	@Override
-	public ResponseActorDTO create(
+	public @NonNull ResponseActorDTO create(
 			final @NonNull RequestCrearActorDTO requestCrearActorDTO)
 	{
 		log.debug("createActor({})", requestCrearActorDTO);
@@ -76,7 +76,7 @@ public class ActorServiceImpl implements ActorService
 	}
 
 	@Override
-	public ResponseActorDTO update(
+	public @NonNull ResponseActorDTO update(
 			final @NonNull RequestActualizarActorDTO requestActualizarActorDTO)
 					throws ElementoNoExistenteException
 	{

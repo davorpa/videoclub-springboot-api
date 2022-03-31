@@ -3,7 +3,11 @@ package es.seresco.cursojee.videoclub.business.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 
 import es.seresco.cursojee.videoclub.business.model.Actor;
 import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
@@ -12,27 +16,31 @@ import es.seresco.cursojee.videoclub.view.dto.actor.RequestBorrarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.ResponseActorDTO;
 
+@Validated
 public interface ActorService
 {
 
 	static final String BEAN_NAME = "actorService";
 
 
-	List<ResponseActorDTO> findAll();
+	@NonNull List<ResponseActorDTO> findAll();
 
-	ResponseActorDTO findById(
-			final @NonNull Long id) throws ElementoNoExistenteException;
+	@NonNull ResponseActorDTO findById(
+			final @NotNull @NonNull Long id)
+					throws ElementoNoExistenteException;
 
-	Optional<Actor> findModelById(
-			final @NonNull Long id);
+	@NonNull Optional<Actor> findModelById(
+			final @NotNull @NonNull Long id);
 
-	ResponseActorDTO create(
-			final @NonNull RequestCrearActorDTO requestCrearActorDTO);
+	@NonNull ResponseActorDTO create(
+			final @Valid @NotNull @NonNull RequestCrearActorDTO requestCrearActorDTO);
 
-	ResponseActorDTO update(
-			final @NonNull RequestActualizarActorDTO requestActualizarActorDTO) throws ElementoNoExistenteException;
+	@NonNull ResponseActorDTO update(
+			final @Valid @NotNull @NonNull RequestActualizarActorDTO requestActualizarActorDTO)
+					throws ElementoNoExistenteException;
 
 	void delete(
-			final @NonNull RequestBorrarActorDTO requestBorrarActorDTO) throws ElementoNoExistenteException;
+			final @Valid @NotNull @NonNull RequestBorrarActorDTO requestBorrarActorDTO)
+					throws ElementoNoExistenteException;
 
 }
