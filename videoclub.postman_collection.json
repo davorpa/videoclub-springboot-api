@@ -1,0 +1,914 @@
+{
+	"info": {
+		"_postman_id": "19208797-3b4f-4142-8337-f56a1737fc18",
+		"name": "videoclub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "actores",
+			"item": [
+				{
+					"name": "Actor :: list all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: get (notFound)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Fulanito\",\n    \"primerApellido\": \"Peliculero\",\n    \"fechaNacimiento\": \"23/08/1983\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: create (badRequest)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"segundoApellido\": \"Peliculero\",\n    \"fechaNacimiento\": \"23/08/1983\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"nombre\": \"Fulanito\",\n    \"primerApellido\": \"Peliculero\",\n    \"segundoApellido\": \"de Manga\",\n    \"fechaNacimiento\": \"23/08/1983\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: update (badRequest)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"segundoApellido\": \"Tornero\",\n    \"fechaNacimiento\": \"23/08/1983\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: update (notFound)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 999999999,\n    \"nombre\": \"Fulanito\",\n    \"primerApellido\": \"Peliculero\",\n    \"segundoApellido\": \"de Manga\",\n    \"fechaNacimiento\": \"23/08/1983\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: update (inconsistent)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 50,\n    \"nombre\": \"Fulanito\",\n    \"primerApellido\": \"Peliculero\",\n    \"segundoApellido\": \"Tornero\",\n    \"fechaNacimiento\": \"23/08/1983\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"confirmacion\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: delete (notFound)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"confirmacion\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actor :: delete (inconsistent)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 50,\n    \"confirmacion\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/actores/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "peliculas",
+			"item": [
+				{
+					"name": "Pelicula :: list all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/search?title=os&duration=&year=&actor=it",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "os"
+								},
+								{
+									"key": "duration",
+									"value": ""
+								},
+								{
+									"key": "year",
+									"value": ""
+								},
+								{
+									"key": "actor",
+									"value": "it"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: search (badRequest) Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/search?title=os&actor=star",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "os"
+								},
+								{
+									"key": "duration",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "year",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "actor",
+									"value": "star"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: get (notFound)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\": \"Los Bingueros\",\n    \"duracion\": 91,\n    \"anio\": 1982,\n    \"genero\": \"COMEDIA\",\n    \"actores\": [\n        1\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: create (badRequest)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\": \"Los Bingueros\",\n    \"duracion\": -91,\n    \"anio\": 1982,\n    \"genero\": \"COMEDIA\",\n    \"actores\": [\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"titulo\": \"Los Bingueros\",\n    \"duracion\": 92,\n    \"anio\": 1982,\n    \"genero\": \"COMEDIA\",\n    \"actores\": [\n        1\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: update (badRequest)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"titulo\": \"Los Bingueros\",\n    \"duracion\": -99,\n    \"anio\": 1982,\n    \"genero\": \"COMEDIA\",\n    \"actores\": [\n        1\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: update (notFound)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 999999999,\n    \"titulo\": \"Los Bingueros\",\n    \"duracion\": 92,\n    \"anio\": 1982,\n    \"genero\": \"COMEDIA\",\n    \"actores\": [\n        1\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: update (inconsistent)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 50,\n    \"titulo\": \"Los Bingueros\",\n    \"duracion\": 92,\n    \"anio\": 1982,\n    \"genero\": \"COMEDIA\",\n    \"actores\": [\n        1\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: delete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"confirmacion\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: delete (notFound)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 999999999,\n    \"confirmacion\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/999999999",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pelicula :: delete (inconsistent)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 50,\n    \"confirmacion\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/privado/peliculas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Genero :: list all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/privado/generos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"privado",
+						"generos",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "GolSporting",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Dani",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
