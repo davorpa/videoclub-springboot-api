@@ -1,17 +1,27 @@
 package es.seresco.cursojee.videoclub.view.handler;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ElementKind;
+import javax.validation.Path;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.internal.engine.path.NodeImpl;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +39,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 
+	private static final String DOT = ".";
+
+
+
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(
 			final Exception ex, Object body,
@@ -42,6 +56,8 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 				body = buildErrorInfoForTypeMismatch((TypeMismatchException) ex, request);
 			} else if (ex instanceof BindException) {
 				body = buildErrorInfoForBindException((BindException) ex, request);
+			} else if (ex instanceof ConstraintViolationException) {
+				body = buildErrorInfoForConstraintViolation((ConstraintViolationException) ex, request);
 			}
 			// TODO: handle other significant Exceptions mapped in ResponseEntityExceptionHandler
 			else {
@@ -122,6 +138,102 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 
 
 
+	@ExceptionHandler({
+		ConstraintViolationException.class
+	})
+	@Nullable
+	public ResponseEntity<Object> handleConstraintViolations(
+			final Exception ex, WebRequest request)
+	{
+		HttpHeaders headers = new HttpHeaders();
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		return handleExceptionInternal(ex, null, headers, status, request);
+	}
+
+	protected ErrorInfo<Object> buildErrorInfoForConstraintViolation(
+			final ConstraintViolationException ex, final WebRequest request)
+	{
+		final String requestUrl = resolveRequestURL(request, null);
+		// TODO: make a DTO mapping the most important exception details or specialize ErrorInfo DTO
+		final Map<String, Object> details = new LinkedHashMap<>(1);
+		details.put("errors", ex.getConstraintViolations().stream()
+				.map(this::mapConstraintViolationToFieldError).collect(Collectors.toSet()));
+		return new ErrorInfo<>(requestUrl, ex, details);
+	}
+
+	protected FieldError mapConstraintViolationToFieldError(
+			final ConstraintViolation<?> violation)
+	{
+		String violationMessageTemplate = violation.getMessageTemplate();
+		String violationSingleName = StringUtils.substringAfterLast(
+				violation.getConstraintDescriptor().getAnnotation().annotationType().getTypeName(), DOT);
+		String rootBeanSingleName = StringUtils.substringAfterLast(violation.getRootBeanClass().getTypeName(), DOT);
+		Object rejectedValue = violation.getInvalidValue();
+		String rejectedValueTypeName = rejectedValue == null ? null : rejectedValue.getClass().getTypeName();
+		String field = violation.getPropertyPath().toString();
+		// deinterpolate template: ussually "{ key }"
+		String msgKey = StringUtils.removeEnd(StringUtils.removeStart(violationMessageTemplate, "{") , "}");
+		msgKey = StringUtils.removeEnd(msgKey, ".message");
+
+		return new FieldError(rootBeanSingleName, field, rejectedValue, false,
+		// compose message keys of violation according to `org.springframework.web.bind.MethodArgumentNotValidException` format
+				new String[] {
+					String.join(DOT, msgKey, rootBeanSingleName, field),
+					String.join(DOT, msgKey, field),
+					String.join(DOT, msgKey, field, rejectedValueTypeName),
+					msgKey,
+					String.join(DOT, violationSingleName, rootBeanSingleName, field),
+					String.join(DOT, violationSingleName, field),
+					String.join(DOT, violationSingleName, field, rejectedValueTypeName),
+					violationSingleName
+				},
+		// and of the arguments too
+				StreamSupport.stream(
+						violation.getPropertyPath().spliterator(), false)
+					.map(this::mapConstraintViolationPathNodeToFieldErrorArgument)
+					.collect(Collectors.toList())
+					.toArray(),
+		// interpolated message as default
+				violation.getMessage());
+	}
+
+	protected Map<String, Object> mapConstraintViolationPathNodeToFieldErrorArgument(
+			final Path.Node pathNode)
+	{
+		Map<String, Object> arg = new LinkedHashMap<>(10);
+		ElementKind kind;
+		arg.put("codes", List.of(pathNode.getName()));
+		arg.put("defaultMessage", pathNode.toString());
+		arg.put("code", pathNode.getName());
+		arg.put("kind", kind = pathNode.getKind());
+		arg.put("index", pathNode.getIndex());
+		arg.put("key", pathNode.getKey());
+		if (pathNode instanceof NodeImpl) { // Hibernate
+			NodeImpl node = (NodeImpl) pathNode;
+			try { arg.put("typeArgumentIndex", node.getTypeArgumentIndex()); } catch (Exception e) { /*NOSONAR*/ }
+			try {
+				Class<?> containerClass = node.getContainerClass();
+				arg.put("containerType", containerClass != null
+						? StringUtils.substringAfterLast(containerClass.getTypeName(), DOT)
+						: StringUtils.substringAfterLast(
+								node.getParent().getParent().getParameterTypes().get(
+										node.getParent().getParameterIndex()
+								).getTypeName(), DOT));
+			} catch (Exception e) { /*NOSONAR*/ }
+			if (kind == ElementKind.METHOD) {
+				try { arg.put("parameterTypes", node.getParameterTypes()); } catch (Exception e) { /*NOSONAR*/ }
+			}
+			try {
+				arg.put("index", node.getParameterIndex());
+				arg.put("objectType", StringUtils.substringAfterLast(
+						node.getParent().getParameterTypes().get(node.getParameterIndex()).getTypeName(), DOT));
+			} catch (Exception e) { /*NOSONAR*/ }
+		}
+		return arg;
+	}
+
+
 
 	@ExceptionHandler({
 		NoSuchElementException.class,
@@ -143,6 +255,19 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, body, headers, status, request);
 	}
 
+	protected Object buildErrorInfoForElementoNoExistente(
+			final ElementoNoExistenteException ex, final WebRequest request)
+	{
+		final String requestUrl = resolveRequestURL(request, null);
+		// TODO: make a DTO mapping the most important exception details or specialize ErrorInfo DTO
+		final Map<String, Object> details = new LinkedHashMap<>(2);
+		details.put("type", ex.getType());
+		details.put("value", ex.getId());
+		return new ErrorInfo<>(requestUrl, ex, details);
+	}
+
+
+
 	@ExceptionHandler({
 		PeticionInconsistenteException.class
 	})
@@ -158,17 +283,6 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 					ex);
 		}
 		return ResponseEntity.status(status).body(body);
-	}
-
-	protected Object buildErrorInfoForElementoNoExistente(
-			final ElementoNoExistenteException ex, final WebRequest request)
-	{
-		final String requestUrl = resolveRequestURL(request, null);
-		// TODO: make a DTO mapping the most important exception details or specialize ErrorInfo DTO
-		final Map<String, Object> details = new LinkedHashMap<>(2);
-		details.put("type", ex.getType());
-		details.put("value", ex.getId());
-		return new ErrorInfo<>(requestUrl, ex, details);
 	}
 
 }
