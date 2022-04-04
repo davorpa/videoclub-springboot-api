@@ -26,6 +26,14 @@ logging:
 
 appz:
   security:
+
+    authentication:
+      in-memory:
+        # password
+        password: $2a$10$U4RvjPPecYcXj8ofw8WnXeLNwOvRkKkt1mv59X3oZzsh94qNmKq9O
+        # 01234
+#        password: $2a$10$lb0QZlRNjPVvpxJ741ghb.p23Wlde19MMLNBOaI/jaeSpAtn7U2Jy
+
     http:
       form:
         enabled: true
