@@ -28,6 +28,7 @@ public class GeneroController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<GeneroDTO> getGeneros()
 	{
+		log.info("Listing generos...");
 		return generoService.findAll();
 	}
 

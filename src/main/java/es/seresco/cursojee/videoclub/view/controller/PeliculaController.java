@@ -3,12 +3,15 @@ package es.seresco.cursojee.videoclub.view.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +48,7 @@ public class PeliculaController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<ResponsePeliculaDTO> getPeliculas()
 	{
+		log.info("Listing peliculas...");
 		return peliculaService.findAll();
 	}
 
@@ -53,6 +57,7 @@ public class PeliculaController {
 	public @ResponseBody List<ResponseSearchPeliculaDTO> search(
 			final @RequestParam("q") String qs)
 	{
+		log.info("Searching using query string... `{}`", qs);
 		// TODO support a search by a "q" param to have a fluent form:
 		//
 		//         title:"Film" AND actor:*"ie" OR year:>1900 ...
@@ -73,6 +78,7 @@ public class PeliculaController {
 				final @RequestParam(value = "year",     required = false) Integer anio,
 				final @RequestParam(value = "actor",    required = false) String actor)
 	{
+		log.info("Searching using fixed values...");
 		CustomSearchPeliculaDTO query = CustomSearchPeliculaDTO.builder()
 				.titulo(titulo)
 				.duracion(duracion)
@@ -91,6 +97,7 @@ public class PeliculaController {
 		return ResponseEntity.ok(peliculaDTO);
 	}
 
+	@Secured({ "ROLE_ADMIN" })
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponsePeliculaDTO> createPelicula(
 			@Validated @RequestBody @NotNull RequestCrearPeliculaDTO requestCrearPeliculaDTO)
@@ -100,6 +107,7 @@ public class PeliculaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(peliculaDTO);
 	}
 
+	@RolesAllowed({ "ROLE_ADMIN" })
 	@PutMapping(path = "/{idPelicula}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updatePelicula(
 			@PathVariable @NotNull @Positive Long idPelicula,
@@ -114,6 +122,7 @@ public class PeliculaController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(path = "/{idPelicula}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> delete(
 			@PathVariable @NotNull @Positive Long idPelicula,

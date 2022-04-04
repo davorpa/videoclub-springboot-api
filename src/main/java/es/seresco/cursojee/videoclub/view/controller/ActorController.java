@@ -3,12 +3,15 @@ package es.seresco.cursojee.videoclub.view.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +45,7 @@ public class ActorController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<ResponseActorDTO> getActores()
 	{
+		log.info("Listing actores...");
 		return actorService.findAll();
 	}
 
@@ -54,6 +58,7 @@ public class ActorController {
 		return ResponseEntity.ok(actorDTO);
 	}
 
+	@Secured({ "ROLE_ADMIN" })
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseActorDTO> createActor(
 			@Validated @RequestBody @NotNull RequestCrearActorDTO requestCrearActorDTO)
@@ -62,6 +67,7 @@ public class ActorController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(actorDTO);
 	}
 
+	@RolesAllowed({ "ROLE_ADMIN" })
 	@PutMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> updateActor(
 			@PathVariable @NotNull @Positive Long idActor,
@@ -76,6 +82,7 @@ public class ActorController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> delete(
 			@PathVariable @NotNull @Positive Long idActor,
