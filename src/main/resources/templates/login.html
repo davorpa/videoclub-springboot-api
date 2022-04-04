@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Please sign in</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <style type="text/css">
+    html, body { height: 100%; }
+    body {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+    }
+    .form-signin {
+        width: 100%;
+        max-width: 480px;
+        padding: 15px;
+        margin: auto;
+    }
+    .form-signin .checkbox {
+        font-weight: 400;
+    }
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .form-signin .form-control:focus { z-index: 2; }
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    </style>
+</head>
+<body id="page-signin" class="d-flex flex-column h-100 text-center">
+
+<!-- Begin page content -->
+<main role="main" class="flex-shrink-0">
+    <form th:action="${@environment.getProperty('appz.security.http.form.login-processing-url')}" method="post" class="container form-signin">
+        <img class="mb-4" src="brand-logo.png" alt="" width="92" height="92">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <p>Invalid credentials.</p>
+            <hr>
+            <small class="form-text">If the problem persist, maybe authentication services are down; so please, check statuses or contact with an administrator.</small>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div th:if="${param.denied}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <p>Access denied to requested resource.</p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+            You have been logged out.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            You have been logged in successfully.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="form-group">
+            <label for="input-useruid_01" class="sr-only">User Name / Email :</label>
+            <input type="text" id="input-useruid_01" name="username" class="form-control" placeholder="Input your UUID (email / username)" required autofocus aria-describedby="input-useruid1_help-hint">
+            <small id="input-useruid1_help-hint" class="form-text text-muted">We'll never share your email or other sign data with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="input-password_01" class="sr-only">Password :</label>
+            <input type="password" id="input-password_01" name="password" class="form-control" placeholder="Input your password" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign In</button>
+        </div>
+    </form>
+</main>
+<footer class="footer mt-auto py-3">
+  <div class="container">
+    <span class="copyright text-muted">All rights reserved &copy; <span class="year" th:text="${#calendars.format(#calendars.createNow(), 'yyyy')}">2022</span></span>
+  </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+</body>
+</html>

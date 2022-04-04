@@ -22,3 +22,39 @@ logging:
     '[org.apache.coyote.http11.Http11InputBuffer]': INFO
     '[org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping]': INFO
     '[es.seresco]': DEBUG
+
+
+appz:
+  security:
+    http:
+      form:
+        enabled: true
+        # Specifies the URL to send users to if login is required
+        login-page: /login
+        # Specifies the URL to validate the credentials using POST method.
+        login-processing-url: /login
+        # Specifies where users will be redirected after authenticating successfully if they have not visited a secured page prior to authenticating
+        authentication-success-url: /login?success
+        # the URL to send users if authentication fails (i.e. "/login?error").
+        authentication-failure-url: /login?error
+        # how is the name of fields used to configure the login form
+        username-parameter: username
+        password-parameter: password
+        # Forward Authentication Success Handler url
+        success-forward-url: 
+        # Forward Authentication Failure Handler url
+        failure-forward-url: 
+      logout:
+        enabled: true
+        # The URL that triggers log out to occur
+        processing-url: /logout
+        # The URL to redirect to after logout has occurred.
+        success-url: /login?logout
+      basic:
+        enabled: true
+        realm: VIDEOCLUPY!
+      exception-handling:
+        enabled: true
+        # the URL to the access denied page (i.e. /errors/401)
+        access-denied-page: /login?denied
+
