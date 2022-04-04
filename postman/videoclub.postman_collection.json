@@ -14,12 +14,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -36,12 +34,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -58,12 +54,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/999999999",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/999999999",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -89,12 +83,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -120,12 +112,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -151,12 +141,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -182,12 +170,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -213,12 +199,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/999999999",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/999999999",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -244,12 +228,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -286,12 +268,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -328,12 +308,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/999999999",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/999999999",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -370,12 +348,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/actores/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/actores/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -397,12 +373,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -419,12 +393,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/search?title=os&duration=&year=&actor=it",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/search?title=os&duration=&year=&actor=it",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -454,17 +426,41 @@
 					"response": []
 				},
 				{
+					"name": "Pelicula :: search-q",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostport}}/api/privado/peliculas/search?q=title:\"Film\" AND year:>1900",
+							"host": [
+								"{{hostport}}"
+							],
+							"path": [
+								"api",
+								"privado",
+								"peliculas",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "title:\"Film\" AND year:>1900"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Pelicula :: search (badRequest) Copy",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/search?title=os&actor=star",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/search?title=os&actor=star",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -501,12 +497,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -523,12 +517,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/999999999",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/999999999",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -554,12 +546,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -585,12 +575,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -616,12 +604,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -647,12 +633,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -678,12 +662,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/999999999",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/999999999",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -709,12 +691,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -751,12 +731,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -793,12 +771,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/999999999",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/999999999",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -835,12 +811,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/privado/peliculas/1",
-							"protocol": "http",
+							"raw": "{{hostport}}/api/privado/peliculas/1",
 							"host": [
-								"localhost"
+								"{{hostport}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"privado",
@@ -859,12 +833,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/privado/generos/",
-					"protocol": "http",
+					"raw": "{{hostport}}/api/privado/generos/",
 					"host": [
-						"localhost"
+						"{{hostport}}"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"privado",
@@ -881,12 +853,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "GolSporting",
+				"value": "{{password}}",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "Dani",
+				"value": "{{username}}",
 				"type": "string"
 			}
 		]
