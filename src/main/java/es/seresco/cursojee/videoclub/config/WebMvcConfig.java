@@ -38,7 +38,7 @@ public class WebMvcConfig
 		if (StringUtils.isNotBlank(value = environment.getProperty(
 				"appz.security.http.form.login-page", "/login"))) {
 			registry.addViewController(value).setViewName("login");
-			log.info("Login view controller configured at: {}", value);
+			log.info("Login view controller configured at: `{}`", value);
 		}
 	}
 
