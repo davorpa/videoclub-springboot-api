@@ -32,7 +32,7 @@ Se pide:
 3. Crear métodos CRUD para las películas.
 4. Crear interfaz para dar de alta actores y poder modificar sus datos.
 5. Crear interfaz para localizar películas por título, año, duración, nombre del autor, primer apellido del autor.
-6. Lass validaciones se realizarán mediante constraints en los DTO correspondientes.
+6. Las validaciones se realizarán mediante constraints en los DTO correspondientes.
 
 ## API Urls:
 
