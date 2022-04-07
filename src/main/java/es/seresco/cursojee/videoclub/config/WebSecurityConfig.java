@@ -79,7 +79,7 @@ public class WebSecurityConfig
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			;
 
-		log.info("On demand configuration of ORS and CSRF protections...");
+		log.info("On demand configuration of CORS and CSRF protections...");
 		// add CORS y CSRF protections
 		http
 				.cors()
