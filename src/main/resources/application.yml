@@ -21,6 +21,7 @@ logging:
     root: INFO
     '[org.apache.coyote.http11.Http11InputBuffer]': INFO
     '[org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping]': INFO
+    '[org.springframework.security]': DEBUG
     '[es.seresco]': DEBUG
 
 
