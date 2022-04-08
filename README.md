@@ -19,11 +19,18 @@ Teniendo las siguientes entidades:
     - Duración: Obligatorio. Número positivo menor que 500.
     - Actores: Por lo menos debe tener uno.
     - Género: Obligatorio.
+    - Ejemplares. Lista de ejemplares
 3. Actor:
-     - Nombre. Obligatorio
-     - Primer Apellido: Obligatorio
-     - Segundo Apellido: Sólo podrá venir relleno si está cubierto el primer apellido.
-     - Fecha de Nacimiento: Obligatorio y mayor que 1/1/1900
+    - Nombre. Obligatorio
+    - Primer Apellido: Obligatorio
+    - Segundo Apellido: Sólo podrá venir relleno si está cubierto el primer apellido.
+    - Fecha de Nacimiento: Obligatorio y mayor que 1/1/1900
+4. Ejemplar
+    - Estado. Obligatorio. Enumerado: Libre, Reservado, Alquilado, Comprado
+    - Fecha alta en la tienda (stock)
+    - Fecha baja en la tienda (stock)
+    - Fecha salida de la tienda (alquiler / compra)
+    - Fecha devolución en la tienda (alquiler / compra)
 
 Se pide:
 
@@ -52,6 +59,13 @@ Se pide:
 - `DELETE` -> `/api/privado/actores/{id}`: Borrar actor.
 
 - `GET` -> `/api/privado/peliculas/search`: Localizar películas.
+
+- `GET` -> `/api/privado/peliculas/{id}/stock/`: listar el stock de una película.
+- `POST` -> `/api/privado/peliculas/{id}/stock/`: Modificar (incrementar / decrementar) el stock de una película.
+
+- `POST` -> `/api/privado/store/peliculas/{id}/e/{eid}/?action=sell`: Compraventa de un ejemplar.
+- `POST` -> `/api/privado/store/peliculas/{id}/e/{eid}/?action=rent`: Alquila un ejemplar.
+- `POST` -> `/api/privado/store/peliculas/{id}/e/{eid}/?action=return`: Devuelve un ejemplar.
 
 
 ## Getting Started
