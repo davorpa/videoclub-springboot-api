@@ -33,6 +33,7 @@ Se pide:
 4. Crear interfaz para dar de alta actores y poder modificar sus datos.
 5. Crear interfaz para localizar películas por título, año, duración, nombre del autor, primer apellido del autor.
 6. Las validaciones se realizarán mediante constraints en los DTO correspondientes.
+7. Crear interfaz para permitir alquilar y devolver ejemplares de películas, así como la gestión de su stock (opcionalmente).
 
 ## API Urls:
 
