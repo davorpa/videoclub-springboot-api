@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import es.seresco.cursojee.videoclub.business.model.Actor;
 import es.seresco.cursojee.videoclub.business.repository.ActorRepository;
 import es.seresco.cursojee.videoclub.business.service.ActorService;
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
+import es.seresco.cursojee.videoclub.exception.MyBusinessException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
 import es.seresco.cursojee.videoclub.mapper.ActorMapper;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestActualizarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestBorrarActorDTO;
@@ -25,7 +26,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Service(ActorService.BEAN_NAME)
-@Transactional(rollbackFor = ElementoNoExistenteException.class)
+@Transactional(rollbackFor = MyBusinessException.class)
 @Setter
 @NoArgsConstructor
 @Slf4j
@@ -51,7 +52,7 @@ public class ActorServiceImpl implements ActorService
 	@Override
 	public @NonNull ResponseActorDTO findById(
 			final @NonNull Long id)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		log.debug("findActorById({})", id);
 		Actor actor = findInternal(id);
@@ -78,7 +79,7 @@ public class ActorServiceImpl implements ActorService
 	@Override
 	public @NonNull ResponseActorDTO update(
 			final @NonNull RequestActualizarActorDTO requestActualizarActorDTO)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		log.debug("updateActor({})", requestActualizarActorDTO);
 		Long id;
@@ -90,7 +91,7 @@ public class ActorServiceImpl implements ActorService
 		try {
 			actor = actorRepository.update(actor);
 		} catch (NoSuchElementException e) {
-			throw new ElementoNoExistenteException(Actor.class, id);
+			throw new NoSuchEntityException(Actor.class, id);
 		}
 		// transform back to DTO
 		return actorMapper.mapActorToResponseActorDTO(actor);
@@ -99,7 +100,7 @@ public class ActorServiceImpl implements ActorService
 	@Override
 	public void delete(
 			final @NonNull RequestBorrarActorDTO requestBorrarActorDTO)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		log.debug("deleteActor({})", requestBorrarActorDTO);
 		Long id;
@@ -107,15 +108,15 @@ public class ActorServiceImpl implements ActorService
 
 		Actor actor = findInternal(id);
 		if (actor == null || !actorRepository.delete(actor)) {
-			throw new ElementoNoExistenteException(Actor.class, id);
+			throw new NoSuchEntityException(Actor.class, id);
 		}
 	}
 
 	protected Actor findInternal(Long id)
-			throws ElementoNoExistenteException
+			throws NoSuchEntityException
 	{
 		return findModelById(id)
-				.orElseThrow(ElementoNoExistenteException.creater(Actor.class, id));
+				.orElseThrow(NoSuchEntityException.creater(Actor.class, id));
 	}
 
 }

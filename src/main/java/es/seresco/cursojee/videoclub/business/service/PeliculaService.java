@@ -9,7 +9,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.CustomSearchPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestBorrarPeliculaDTO;
@@ -31,18 +31,18 @@ public interface PeliculaService
 
 	@NonNull ResponsePeliculaDTO findById(
 			final @NotNull @NonNull Long id)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 	@NonNull ResponsePeliculaDTO create(
 			final @Valid @NotNull @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 	@NonNull ResponsePeliculaDTO update(
 			final @Valid @NotNull @NonNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 	void delete(
 			final @Valid @NotNull @NonNull RequestBorrarPeliculaDTO requestBorrarPeliculaDTO)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 }

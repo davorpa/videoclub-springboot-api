@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 
 import es.seresco.cursojee.videoclub.business.model.Actor;
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestActualizarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestBorrarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
@@ -27,7 +27,7 @@ public interface ActorService
 
 	@NonNull ResponseActorDTO findById(
 			final @NotNull @NonNull Long id)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 	@NonNull Optional<Actor> findModelById(
 			final @NotNull @NonNull Long id);
@@ -37,10 +37,10 @@ public interface ActorService
 
 	@NonNull ResponseActorDTO update(
 			final @Valid @NotNull @NonNull RequestActualizarActorDTO requestActualizarActorDTO)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 	void delete(
 			final @Valid @NotNull @NonNull RequestBorrarActorDTO requestBorrarActorDTO)
-					throws ElementoNoExistenteException;
+					throws NoSuchEntityException;
 
 }

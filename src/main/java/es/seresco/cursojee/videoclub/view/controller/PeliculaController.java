@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.seresco.cursojee.videoclub.business.service.PeliculaService;
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
-import es.seresco.cursojee.videoclub.exception.PeticionInconsistenteException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
+import es.seresco.cursojee.videoclub.exception.BadRequestException;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.CustomSearchPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestBorrarPeliculaDTO;
@@ -91,7 +91,7 @@ public class PeliculaController {
 	@GetMapping(path = "/{idPelicula}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponsePeliculaDTO> getPelicula(
 			@PathVariable @NotNull @Positive Long idPelicula)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		ResponsePeliculaDTO peliculaDTO = peliculaService.findById(idPelicula);
 		return ResponseEntity.ok(peliculaDTO);
@@ -101,7 +101,7 @@ public class PeliculaController {
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponsePeliculaDTO> createPelicula(
 			@Validated @RequestBody @NotNull RequestCrearPeliculaDTO requestCrearPeliculaDTO)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		ResponsePeliculaDTO peliculaDTO = peliculaService.create(requestCrearPeliculaDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(peliculaDTO);
@@ -112,10 +112,10 @@ public class PeliculaController {
 	public ResponseEntity<Void> updatePelicula(
 			@PathVariable @NotNull @Positive Long idPelicula,
 			@Validated @RequestBody @NotNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO)
-					throws PeticionInconsistenteException, ElementoNoExistenteException
+					throws BadRequestException, NoSuchEntityException
 	{
 		if (!idPelicula.equals(requestActualizarPeliculaDTO.getId())) {
-			throw new PeticionInconsistenteException();
+			throw new BadRequestException();
 		}
 		peliculaService.update(requestActualizarPeliculaDTO);
 
@@ -127,10 +127,10 @@ public class PeliculaController {
 	public ResponseEntity<Void> delete(
 			@PathVariable @NotNull @Positive Long idPelicula,
 			@Validated @RequestBody @NotNull RequestBorrarPeliculaDTO requestBorrarPeliculaDTO)
-					throws PeticionInconsistenteException, ElementoNoExistenteException
+					throws BadRequestException, NoSuchEntityException
 	{
 		if (!idPelicula.equals(requestBorrarPeliculaDTO.getId())) {
-			throw new PeticionInconsistenteException();
+			throw new BadRequestException();
 		}
 
 		peliculaService.delete(requestBorrarPeliculaDTO);

@@ -30,8 +30,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.util.WebUtils;
 
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
-import es.seresco.cursojee.videoclub.exception.PeticionInconsistenteException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
+import es.seresco.cursojee.videoclub.exception.BadRequestException;
 import es.seresco.cursojee.videoclub.view.dto.ErrorInfo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -237,7 +237,7 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler({
 		NoSuchElementException.class,
-		ElementoNoExistenteException.class
+		NoSuchEntityException.class
 	})
 	@Nullable
 	public ResponseEntity<Object> handleNotFoundExceptions(
@@ -246,8 +246,8 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpHeaders headers = new HttpHeaders();
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		Object body;
-		if (ex instanceof ElementoNoExistenteException) {
-			body = buildErrorInfoForElementoNoExistente((ElementoNoExistenteException) ex, request);
+		if (ex instanceof NoSuchEntityException) {
+			body = buildErrorInfoForElementoNoExistente((NoSuchEntityException) ex, request);
 		} else {
 			body = buildErrorInfo(ex, request);
 		}
@@ -256,7 +256,7 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	protected Object buildErrorInfoForElementoNoExistente(
-			final ElementoNoExistenteException ex, final WebRequest request)
+			final NoSuchEntityException ex, final WebRequest request)
 	{
 		final String requestUrl = resolveRequestURL(request, null);
 		// TODO: make a DTO mapping the most important exception details or specialize ErrorInfo DTO
@@ -269,11 +269,11 @@ public class VideoClubExceptionHandler extends ResponseEntityExceptionHandler {
 
 
 	@ExceptionHandler({
-		PeticionInconsistenteException.class
+		BadRequestException.class
 	})
 	@Nullable
 	public ResponseEntity<Object> handlePeticionInconsistenteException(
-			final PeticionInconsistenteException ex, WebRequest request)
+			final BadRequestException ex, WebRequest request)
 	{
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 		String body = ex.getLocalizedMessage();

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.seresco.cursojee.videoclub.business.repository.GeneroRepository;
 import es.seresco.cursojee.videoclub.business.service.GeneroService;
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
+import es.seresco.cursojee.videoclub.exception.MyBusinessException;
 import es.seresco.cursojee.videoclub.mapper.GeneroMapper;
 import es.seresco.cursojee.videoclub.view.dto.genero.GeneroDTO;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Service(GeneroService.BEAN_NAME)
-@Transactional(rollbackFor = ElementoNoExistenteException.class)
+@Transactional(rollbackFor = MyBusinessException.class)
 @Setter
 @NoArgsConstructor
 @Slf4j

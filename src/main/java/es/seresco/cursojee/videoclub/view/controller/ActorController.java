@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.seresco.cursojee.videoclub.business.service.ActorService;
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
-import es.seresco.cursojee.videoclub.exception.PeticionInconsistenteException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
+import es.seresco.cursojee.videoclub.exception.BadRequestException;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestActualizarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestBorrarActorDTO;
 import es.seresco.cursojee.videoclub.view.dto.actor.RequestCrearActorDTO;
@@ -52,7 +52,7 @@ public class ActorController {
 	@GetMapping(path = "/{idActor}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseActorDTO> getActor(
 			@PathVariable @NotNull @Positive Long idActor)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		ResponseActorDTO actorDTO = actorService.findById(idActor);
 		return ResponseEntity.ok(actorDTO);
@@ -72,10 +72,10 @@ public class ActorController {
 	public ResponseEntity<Void> updateActor(
 			@PathVariable @NotNull @Positive Long idActor,
 			@Validated @RequestBody @NotNull RequestActualizarActorDTO requestActualizarActorDTO)
-					throws PeticionInconsistenteException, ElementoNoExistenteException
+					throws BadRequestException, NoSuchEntityException
 	{
 		if (!idActor.equals(requestActualizarActorDTO.getId())) {
-			throw new PeticionInconsistenteException();
+			throw new BadRequestException();
 		}
 		actorService.update(requestActualizarActorDTO);
 
@@ -87,10 +87,10 @@ public class ActorController {
 	public ResponseEntity<Void> delete(
 			@PathVariable @NotNull @Positive Long idActor,
 			@Validated @RequestBody @NotNull RequestBorrarActorDTO requestBorrarActorDTO)
-					throws PeticionInconsistenteException, ElementoNoExistenteException
+					throws BadRequestException, NoSuchEntityException
 	{
 		if (!idActor.equals(requestBorrarActorDTO.getId())) {
-			throw new PeticionInconsistenteException();
+			throw new BadRequestException();
 		}
 
 		actorService.delete(requestBorrarActorDTO);

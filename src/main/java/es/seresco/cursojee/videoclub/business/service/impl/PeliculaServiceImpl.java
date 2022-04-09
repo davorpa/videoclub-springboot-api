@@ -22,7 +22,8 @@ import es.seresco.cursojee.videoclub.business.model.Pelicula;
 import es.seresco.cursojee.videoclub.business.repository.PeliculaRepository;
 import es.seresco.cursojee.videoclub.business.service.ActorService;
 import es.seresco.cursojee.videoclub.business.service.PeliculaService;
-import es.seresco.cursojee.videoclub.exception.ElementoNoExistenteException;
+import es.seresco.cursojee.videoclub.exception.MyBusinessException;
+import es.seresco.cursojee.videoclub.exception.NoSuchEntityException;
 import es.seresco.cursojee.videoclub.mapper.PeliculaMapper;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.CustomSearchPeliculaDTO;
 import es.seresco.cursojee.videoclub.view.dto.pelicula.RequestActualizarPeliculaDTO;
@@ -35,7 +36,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Service(PeliculaService.BEAN_NAME)
-@Transactional(rollbackFor = ElementoNoExistenteException.class)
+@Transactional(rollbackFor = MyBusinessException.class)
 @Setter
 @NoArgsConstructor
 @Slf4j
@@ -106,7 +107,7 @@ public class PeliculaServiceImpl implements PeliculaService
 	@Override
 	public @NonNull ResponsePeliculaDTO findById(
 			final @NonNull Long id)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		log.debug("findPeliculaById({})", id);
 		Pelicula pelicula = findInternal(id);
@@ -115,7 +116,7 @@ public class PeliculaServiceImpl implements PeliculaService
 
 	@Override
 	public @NonNull ResponsePeliculaDTO create(
-			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO) throws ElementoNoExistenteException
+			final @NonNull RequestCrearPeliculaDTO requestCrearPeliculaDTO) throws NoSuchEntityException
 	{
 		log.debug("createPelicula({})", requestCrearPeliculaDTO);
 		Pelicula pelicula = peliculaMapper.mapRequestCreateDTOToPelicula(requestCrearPeliculaDTO);
@@ -123,7 +124,7 @@ public class PeliculaServiceImpl implements PeliculaService
 		// map model details
 		for (final Long idActor : requestCrearPeliculaDTO.getActores()) {
 			Actor actor = actorService.findModelById(idActor)
-					.orElseThrow(ElementoNoExistenteException.creater(
+					.orElseThrow(NoSuchEntityException.creater(
 							Pelicula.class, idActor));
 			pelicula.addActor(actor);
 		}
@@ -136,7 +137,7 @@ public class PeliculaServiceImpl implements PeliculaService
 	@Override
 	public @NonNull ResponsePeliculaDTO update(
 			final @NonNull RequestActualizarPeliculaDTO requestActualizarPeliculaDTO)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		log.debug("updatePelicula({})", requestActualizarPeliculaDTO);
 		Long id;
@@ -146,7 +147,7 @@ public class PeliculaServiceImpl implements PeliculaService
 		peliculaMapper.updatePeliculaFromDTO(requestActualizarPeliculaDTO, pelicula);
 		for (final Long idActor : requestActualizarPeliculaDTO.getActores()) {
 			Actor actor = actorService.findModelById(idActor)
-					.orElseThrow(ElementoNoExistenteException.creater(
+					.orElseThrow(NoSuchEntityException.creater(
 							Pelicula.class, idActor));
 			pelicula.addActor(actor);
 		}
@@ -154,7 +155,7 @@ public class PeliculaServiceImpl implements PeliculaService
 		try {
 			pelicula = peliculaRepository.update(pelicula);
 		} catch (NoSuchElementException e) {
-			throw new ElementoNoExistenteException(Pelicula.class, id);
+			throw new NoSuchEntityException(Pelicula.class, id);
 		}
 		// transform back to DTO
 		return peliculaMapper.mapPeliculaToResponsePeliculaDTO(pelicula);
@@ -163,7 +164,7 @@ public class PeliculaServiceImpl implements PeliculaService
 	@Override
 	public void delete(
 			final @NonNull RequestBorrarPeliculaDTO requestBorrarPeliculaDTO)
-					throws ElementoNoExistenteException
+					throws NoSuchEntityException
 	{
 		log.debug("deletePelicula({})", requestBorrarPeliculaDTO);
 		Long id;
@@ -171,16 +172,16 @@ public class PeliculaServiceImpl implements PeliculaService
 
 		final Pelicula pelicula = findInternal(id);
 		if (pelicula == null || !peliculaRepository.delete(pelicula)) {
-			throw new ElementoNoExistenteException(Pelicula.class, id);
+			throw new NoSuchEntityException(Pelicula.class, id);
 		}
 	}
 
 
 	protected Pelicula findInternal(final Long id)
-			throws ElementoNoExistenteException
+			throws NoSuchEntityException
 	{
 		return peliculaRepository.findById(id)
-				.orElseThrow(ElementoNoExistenteException.creater(Pelicula.class, id));
+				.orElseThrow(NoSuchEntityException.creater(Pelicula.class, id));
 	}
 
 }
